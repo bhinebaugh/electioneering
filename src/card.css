@@ -1,0 +1,22 @@
+.card {
+    background: #bbd7ca;
+    background: url('/dynamic-bg.png') repeat;
+    border: solid 2px #a48181;
+    border-radius: 10px;
+    box-shadow: 1px 2px 0px #00000090;
+    margin: 20px;
+    padding: 20px;
+    width: 250px;
+}
+.card h1 {
+    background: black;
+    border: solid 2px black;
+    color: white;
+    margin: 0;
+    padding: 0.2em;
+}
+.content {
+    background: #f9f0db;
+    box-shadow: inset 0px 0px 25px #b99d84;
+    padding: 10px;
+}
