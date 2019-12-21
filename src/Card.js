@@ -10,7 +10,7 @@ const Card = ({ name, description, effects, ...rest }) => {
 
             <p>{description}</p>
             <ul className="effects">
-                {Object.keys(effects).map(effect => <li>{effect}</li>)}
+                {Object.keys(effects).map(effect => <li>{effect}: {effects[effect]}</li>)}
             </ul>
             </div>
         </div>
