@@ -34,8 +34,8 @@ function App() {
           Cards: {deck.drawn.length}
           Candidates: -
       </header>
-      <Side candidate={candidates[0]} hand={hands['1']} />
-      <Side candidate={candidates[1]} hand={hands['2']} />
+      <Side candidate={candidates[0]} handId={"1"} hand={hands['1']} />
+      <Side candidate={candidates[1]} handId={"2"} hand={hands['2']} />
     </div>
   );
 }

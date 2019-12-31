@@ -6,7 +6,7 @@ function Candidate(props) {
     return (
         <div className="candidate">
             <h2>{props.name}</h2>
-            {Object.keys(props.stats).map(stat => <dl><dt>{stat}</dt><dd>{props.stats[stat]}</dd></dl>)}
+            {Object.keys(props.stats).map(stat => <dl key={stat}><dt>{stat}</dt><dd>{props.stats[stat]}</dd></dl>)}
         </div>
     )
 }

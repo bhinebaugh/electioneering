@@ -2,15 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './card.css'
 
-const Card = ({ name, description, effects, ...rest }) => {
+const Card = ({ name, description, effects, provided, ...rest }) => {
     return (
-        <div className="card">
+        <div className="card"
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            ref={provided.innerRef}
+        >
             <h1>{name}</h1>
             <div className="content">
 
             <p>{description}</p>
             <ul className="effects">
-                {Object.keys(effects).map(effect => <li>{effect}: {effects[effect]}</li>)}
+                {Object.keys(effects).map(effect => <li key={name+effect}>{effect}: {effects[effect]}</li>)}
             </ul>
             </div>
         </div>
