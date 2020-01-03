@@ -11,9 +11,10 @@ function Hand(props) {
             {...props.provided.droppableProps}
         >
             <h2>{props.title}</h2>
-            {props.hand.map( (card, index) => (
+            {props.cards && props.cards.map( (card, index) => (
                 <Draggable
                     draggableId={card.name}
+                    key={card.name}
                     index={index}
                 >
                     {provided => (
