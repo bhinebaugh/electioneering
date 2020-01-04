@@ -10,7 +10,6 @@ function Hand(props) {
             ref={props.provided.innerRef}
             {...props.provided.droppableProps}
         >
-            <h2>{props.title}</h2>
             {props.cards && props.cards.map( (card, index) => (
                 <Draggable
                     draggableId={card.name}

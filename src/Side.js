@@ -45,8 +45,8 @@ class Side extends React.Component {
                 <DragDropContext
                     onDragEnd={this.onDragEnd}
                 >
-                    <Droppable droppableId={handId}>
-                        {(provided) => (
+                    <Droppable droppableId={handId} direction="horizontal">
+                        {(provided, snapshot) => (
                             <Hand
                                 cards={this.state.cards}
                                 title="your cards" 

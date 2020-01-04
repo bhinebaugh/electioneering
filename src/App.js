@@ -24,15 +24,16 @@ function App() {
   prepareCards(deck);
   let hands = deck.deal(2,4);
   let candidates = [
-    {name: 'player1', stats: {polling: 50, funding: 0}, },
-    {name: 'player2', stats: {polling: 50, funding: 0}, },
+    {name: 'player1', stats: {polling: 35, funding: 0, media: 0, endorsements: 0, staff: 0, volunteers: 0, enthusiasm: 0, }, },
+    {name: 'player2', stats: {polling: 35, funding: 0, media: 0, endorsements: 0, staff: 0, volunteers: 0, enthusiasm: 0, }, },
   ]
 
   return (
     <div className="App">
       <header className="App-header">
-          Cards: {deck.drawn.length}
-          Candidates: -
+        <div>
+          Cards: {deck.drawn.length} Candidates: {candidates.length} Turn: -
+        </div>
       </header>
       <Side candidate={candidates[0]} handId={"1"} hand={hands['1']} />
       <Side candidate={candidates[1]} handId={"2"} hand={hands['2']} />
