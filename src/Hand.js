@@ -7,6 +7,7 @@ import './hand.css';
 function Hand(props) {
     return(
         <div className="hand"
+            style={props.isDraggingOver ? { "background": "blue" } : null}
             ref={props.provided.innerRef}
             {...props.provided.droppableProps}
         >
