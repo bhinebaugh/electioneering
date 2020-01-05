@@ -6,6 +6,18 @@
     border-bottom: 2px solid white;
     margin-bottom: 8px;
     padding-bottom: 8px;
+    padding-top: 12px;
+    position: relative;
+    text-align: left;
+}
+.candidate h2:before {
+    color: white;
+    content: "candidate";
+    font-size: 11px;
+    position: absolute;
+    top: 0;
+    text-transform: uppercase;
+    width: 100%;
 }
 .candidate thead {
     font-style: italic;

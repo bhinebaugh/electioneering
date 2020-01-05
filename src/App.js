@@ -1,7 +1,15 @@
 import React from 'react';
 import Deckbuilder from 'deckbuilder';
 import Side from './Side';
+import { surnames, firstNames } from './settings';
 import './App.css';
+
+function generateName() {
+  return [firstNames, surnames].map(list => {
+    let id = Math.floor(Math.random()*list.length);
+    return list[id]
+  }).join(" ")
+}
 
 function prepareCards(deck) {
   for (let id=1; id<11; id++) {
@@ -24,8 +32,8 @@ function App() {
   prepareCards(deck);
   let hands = deck.deal(2,4);
   let candidates = [
-    {name: 'player1', stats: {polling: 35, funding: 0, media: 0, endorsements: 0, staff: 0, volunteers: 0, enthusiasm: 0, }, },
-    {name: 'player2', stats: {polling: 35, funding: 0, media: 0, endorsements: 0, staff: 0, volunteers: 0, enthusiasm: 0, }, },
+    {name: generateName(), stats: {polling: 35, funding: 0, media: 0, endorsements: 0, staff: 0, volunteers: 0, enthusiasm: 0, }, },
+    {name: generateName(), stats: {polling: 35, funding: 0, media: 0, endorsements: 0, staff: 0, volunteers: 0, enthusiasm: 0, }, },
   ]
 
   return (

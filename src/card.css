@@ -1,23 +1,24 @@
 .card {
-    background: #bbd7ca;
-    background: url('/dynamic-bg.png') repeat;
-    border: solid 2px #a48181;
+    background: #ebe6df;
+    border: solid 1px #888;
     border-radius: 10px;
     box-shadow: 1px 2px 0px #00000090;
+    /* box-shadow: inset 0px 0px 10px #beb493; */
     margin: 0 16px 0 0;
-    padding: 16px;
     width: 140px;
 }
 .card h1 {
-    background: black;
-    border: solid 2px black;
-    color: white;
+    /* background: black; */
+    border-bottom: solid 1px #888;
+    /* color: white; */
     font-size: 20px;
     margin: 0;
     padding: 0.2em;
 }
 .content {
-    background: #f9f0db;
-    box-shadow: inset 0px 0px 25px #b99d84;
     padding: 10px;
+}
+.effects {
+	text-align: left;
+	padding-left: 24px;
 }

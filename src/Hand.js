@@ -30,4 +30,8 @@ function Hand(props) {
     )
 }
 
+Hand.propTypes = {
+    cards: PropTypes.array,
+}
+
 export default Hand;

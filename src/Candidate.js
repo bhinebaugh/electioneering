@@ -7,17 +7,20 @@ function Candidate(props) {
         <div className="candidate">
             <h2>{props.name}</h2>
             <table>
-                <thead><td>stat</td><td>value</td></thead>
+                <thead><tr><th>stat</th><th>value</th></tr></thead>
+                <tbody>
                 {Object.keys(props.stats).map(stat => (
-                    <tr><td>{stat}</td><td>{props.stats[stat]}</td></tr>
+                    <tr key={stat}><td>{stat}</td><td>{props.stats[stat]}</td></tr>
                 ))}
+                </tbody>
             </table>
         </div>
     )
 }
 
 Candidate.propTypes = {
-
+    name: PropTypes.string,
+    stats: PropTypes.object,
 }
 
 export default Candidate;
