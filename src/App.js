@@ -47,14 +47,22 @@ class App extends React.Component {
     deck.shuffle();
   }
   
-  updateCardOrder = (id, sourceIndex, destinationIndex) => {
+  updateCardOrder = (id, sourceIndex, destinationIndex=-1) => {
     let target = Number.parseInt(id);
     let newOrder = Array.from(this.state.order);
     let [removedCard] = newOrder[target].splice(sourceIndex, 1);
-    newOrder[target].splice(destinationIndex, 0, removedCard);
+    if (destinationIndex >= 0) newOrder[target].splice(destinationIndex, 0, removedCard);
     this.setState({
       order: newOrder
     });
+  }
+
+  applyCardEffects = (candidate, card) => {
+    const { effects } = card;
+    for(const effect in effects) {
+      if (candidate.stats && typeof candidate.stats[effect] !== "undefined") candidate.stats[effect] += effects[effect]
+    }
+    this.deck.discard(card.name);
   }
 
   onDragEnd = result => {
@@ -69,8 +77,13 @@ class App extends React.Component {
         if (source.index === destination.index) return;
         this.updateCardOrder(destination.droppableId, source.index, destination.index)
     } else {
-        // card was played to another area (TODO: activate, attack, discard, ...)
-        console.log(draggableId, "card was played")
+        // card was played to another area
+        let candid = this.state.candidates[Number.parseInt(source.droppableId)]
+        let theCard = candid.hand.find(c => c.name === draggableId)
+        this.updateCardOrder(source.droppableId, source.index)
+        const targetId = Number.parseInt(destination.droppableId.substring(1));
+        let target = this.state.candidates[targetId];
+        this.applyCardEffects(target, theCard)
     }
   }
 

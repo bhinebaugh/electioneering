@@ -14,20 +14,30 @@ class Side extends React.Component {
         let { candidate, order } = this.props;
         return (
             <div className="side">
-                <Candidate name={candidate.name} stats={candidate.stats} />
-                    <Droppable droppableId={candidate.id} direction="horizontal">
-                        {(provided, snapshot) => (
-                            <Hand
-                                cards={order.map(cardName => candidate.hand.find(card => card.name === cardName))}
-                                title="your cards" 
-                                handId={candidate.id}
-                                provided={provided}
-                                isDraggingOver={snapshot.isDraggingOver}
-                            >
-                                {provided.placeholder}
-                            </Hand>
-                        )}
-                    </Droppable>
+                <Droppable droppableId={"c"+candidate.id} direction="horizontal">
+                    {(provided, snapshot) => (
+                        <Candidate
+                            name={candidate.name}
+                            stats={candidate.stats}
+                            provided={provided}
+                            isDraggingOver={snapshot.isDraggingOver}
+                        >
+                            {provided.placeholder}
+                        </Candidate>
+                    )}
+                </Droppable>
+                <Droppable droppableId={candidate.id} direction="horizontal">
+                    {(provided, snapshot) => (
+                        <Hand
+                            cards={order.map(cardName => candidate.hand.find(card => card.name === cardName))}
+                            handId={candidate.id}
+                            provided={provided}
+                            isDraggingOver={snapshot.isDraggingOver}
+                        >
+                            {provided.placeholder}
+                        </Hand>
+                    )}
+                </Droppable>
             </div>
         )
     }

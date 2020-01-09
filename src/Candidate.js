@@ -4,7 +4,11 @@ import './candidate.css';
 
 function Candidate(props) {
     return (
-        <div className="candidate">
+        <div className="candidate"
+            style={props.isDraggingOver ? { "background": "blue" } : null}
+            ref={props.provided.innerRef}
+            {...props.provided.droppableProps}
+        >
             <h2>{props.name}</h2>
             <table>
                 <thead><tr><th>stat</th><th>value</th></tr></thead>
@@ -14,6 +18,7 @@ function Candidate(props) {
                 ))}
                 </tbody>
             </table>
+            {props.children}
         </div>
     )
 }

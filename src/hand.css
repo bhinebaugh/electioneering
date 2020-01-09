@@ -1,4 +1,5 @@
 .hand {
+    align-items: flex-start;
     display: flex;
     flex-direction: row;
     padding: 16px;
