@@ -14,8 +14,8 @@ class App extends React.Component {
     this.prepareCards(this.deck);
     this.state = {
       candidates: [
-        {id: "0", name: this.generateName(), stats: {polling: 35, funding: 0, media: 0, endorsements: 0, staff: 0, volunteers: 0, enthusiasm: 0, }, qualities: [], },
-        {id: "1", name: this.generateName(), stats: {polling: 35, funding: 0, media: 0, endorsements: 0, staff: 0, volunteers: 0, enthusiasm: 0, }, qualities: [], },
+        {id: "0", name: this.generateName(), stats: {polling: 35, funding: 0, media: 0, endorsements: 0, staff: 0, volunteers: 0, enthusiasm: 0, }, characteristics: [], },
+        {id: "1", name: this.generateName(), stats: {polling: 35, funding: 0, media: 0, endorsements: 0, staff: 0, volunteers: 0, enthusiasm: 0, }, characteristics: [], },
       ],
       order: []
     }
@@ -52,10 +52,11 @@ class App extends React.Component {
   }
 
   applyCardEffects = (candidate, card) => {
-    const { effects } = card;
+    const { effects, attributes } = card;
     for(const effect in effects) {
       if (candidate.stats && typeof candidate.stats[effect] !== "undefined") candidate.stats[effect] += effects[effect]
     }
+    attributes.forEach(attr => candidate.characteristics.push(attr));
     this.deck.discard(card.name);
   }
 

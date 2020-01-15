@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import AttributeList from './AttributeList';
 import './card.css'
 
-const Card = ({ name, description, effects, provided, ...rest }) => {
+const Card = ({ name, description, effects, attributes, provided, ...rest }) => {
     return (
         <div className="card"
             {...provided.draggableProps}
@@ -16,6 +17,7 @@ const Card = ({ name, description, effects, provided, ...rest }) => {
             <ul className="effects">
                 {Object.keys(effects).map(effect => <li key={name+effect}>{effect}: {effects[effect]}</li>)}
             </ul>
+            <AttributeList attributes={attributes} />
             </div>
         </div>
     )

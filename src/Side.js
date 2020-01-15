@@ -19,6 +19,7 @@ class Side extends React.Component {
                         <Candidate
                             name={candidate.name}
                             stats={candidate.stats}
+                            characteristics={candidate.characteristics}
                             provided={provided}
                             isDraggingOver={snapshot.isDraggingOver}
                         >

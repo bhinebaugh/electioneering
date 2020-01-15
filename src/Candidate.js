@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import AttributeList from './AttributeList';
 import './candidate.css';
 
 function Candidate(props) {
@@ -18,6 +19,7 @@ function Candidate(props) {
                 ))}
                 </tbody>
             </table>
+            <AttributeList attributes={props.characteristics} />
             {props.children}
         </div>
     )
