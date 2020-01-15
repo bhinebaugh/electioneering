@@ -1,13 +1,10 @@
 body {
   background-color: #6faeae;
-  text-align: center;
-}
-
-.App-logo {
+  color: #101717;
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #3f7b7b;
   display: flex;
   flex-direction: column;
   align-items: center;
