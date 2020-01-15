@@ -29,7 +29,7 @@ class Side extends React.Component {
                 <Droppable droppableId={candidate.id} direction="horizontal">
                     {(provided, snapshot) => (
                         <Hand
-                            cards={order.map(cardName => candidate.hand.find(card => card.name === cardName))}
+                            cards={order.map(cardId => candidate.hand.find(card => card.id === cardId))}
                             handId={candidate.id}
                             provided={provided}
                             isDraggingOver={snapshot.isDraggingOver}

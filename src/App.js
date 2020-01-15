@@ -2,6 +2,7 @@ import React from 'react';
 import Deckbuilder from 'deckbuilder';
 import Side from './Side';
 import { surnames, firstNames } from './settings';
+import { cardSet } from './card-definitions';
 import { DragDropContext } from 'react-beautiful-dnd';
 import './App.css';
 
@@ -13,16 +14,16 @@ class App extends React.Component {
     this.prepareCards(this.deck);
     this.state = {
       candidates: [
-        {id: "0", name: this.generateName(), stats: {polling: 35, funding: 0, media: 0, endorsements: 0, staff: 0, volunteers: 0, enthusiasm: 0, }, },
-        {id: "1", name: this.generateName(), stats: {polling: 35, funding: 0, media: 0, endorsements: 0, staff: 0, volunteers: 0, enthusiasm: 0, }, },
+        {id: "0", name: this.generateName(), stats: {polling: 35, funding: 0, media: 0, endorsements: 0, staff: 0, volunteers: 0, enthusiasm: 0, }, qualities: [], },
+        {id: "1", name: this.generateName(), stats: {polling: 35, funding: 0, media: 0, endorsements: 0, staff: 0, volunteers: 0, enthusiasm: 0, }, qualities: [], },
       ],
       order: []
     }
     const hands = this.deck.deal(2,4);
     this.state.candidates[0].hand = hands["1"];
     this.state.candidates[1].hand = hands["2"];
-    this.state.order[0] = this.state.candidates[0].hand.map(c => c.name);
-    this.state.order[1] = this.state.candidates[1].hand.map(c => c.name);
+    this.state.order[0] = this.state.candidates[0].hand.map(c => c.id);
+    this.state.order[1] = this.state.candidates[1].hand.map(c => c.id);
   }
 
   generateName() {
@@ -33,17 +34,10 @@ class App extends React.Component {
   }
   
   prepareCards(deck) {
-    for (let id=1; id<22; id++) {
-      deck.add({
-        id,
-        name: Math.random().toString(36).substring(2,10),
-        effects: {
-          polling: 1 + Math.floor(Math.random()*5),
-          turnout: 1 + Math.floor(Math.random()*3),
-          funding: 1 + Math.floor(Math.random()*50),
-        }
-      });
-    }
+    cardSet.forEach((card, index) => {
+      let derived = Object.assign({}, card, {id: index.toString()})
+      deck.add(derived)
+    })
     deck.shuffle();
   }
   
@@ -79,7 +73,7 @@ class App extends React.Component {
     } else {
         // card was played to another area
         let candid = this.state.candidates[Number.parseInt(source.droppableId)]
-        let theCard = candid.hand.find(c => c.name === draggableId)
+        let theCard = candid.hand.find(c => c.id === draggableId)
         this.updateCardOrder(source.droppableId, source.index)
         const targetId = Number.parseInt(destination.droppableId.substring(1));
         let target = this.state.candidates[targetId];

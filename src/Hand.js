@@ -13,15 +13,17 @@ function Hand(props) {
         >
             {props.cards && props.cards.map( (card, index) => (
                 <Draggable
-                    draggableId={card.name}
-                    key={card.name}
+                    draggableId={card.id}
+                    key={card.id}
                     index={index}
                 >
                     {provided => (
                         <Card
                             provided={provided}
                             name={card.name}
+                            description={card.description}
                             effects={card.effects}
+                            attributes={card.attributes}
                         />
                     )}
                 </Draggable>
