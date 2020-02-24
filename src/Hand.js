@@ -16,6 +16,7 @@ function Hand(props) {
                     draggableId={card.id}
                     key={card.id}
                     index={index}
+                    isDragDisabled={props.waitingTurn}
                 >
                     {provided => (
                         <Card

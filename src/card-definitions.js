@@ -28,12 +28,14 @@ function Card(name, description, effects = {}, attributes = []) {
     this.effects = effects;
     this.attributes = attributes;
     /* possible additional card attributes
-        classes: [], // event, person, content
         cost: 0, // number and type
         cost: { funding: 5, staff: 0 }
+        prerequisite: { staff: 2, volunteers: 5 }
         health
         duration // e.g. smear campaign, decreases approval for 3 turns
+        classes: [], // event, person, content
         flags: [],
+        effects: [],
         triggers: [],
         immunities: [],
     */

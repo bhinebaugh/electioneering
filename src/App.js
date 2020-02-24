@@ -1,6 +1,7 @@
 import React from 'react';
 import Deckbuilder from 'deckbuilder';
 import Side from './Side';
+import FinalResult from './FinalResult';
 import { surnames, firstNames } from './settings';
 import { cardSet } from './card-definitions';
 import { DragDropContext } from 'react-beautiful-dnd';
@@ -17,13 +18,16 @@ class App extends React.Component {
         {id: "0", name: this.generateName(), stats: {polling: 35, funding: 0, media: 0, endorsements: 0, staff: 0, volunteers: 0, enthusiasm: 0, }, characteristics: [], },
         {id: "1", name: this.generateName(), stats: {polling: 35, funding: 0, media: 0, endorsements: 0, staff: 0, volunteers: 0, enthusiasm: 0, }, characteristics: [], },
       ],
-      order: []
+      order: [],
+      round: 4, // counts down, representing weeks until election day
+      turn: null,
     }
     const hands = this.deck.deal(2,4);
     this.state.candidates[0].hand = hands["1"];
     this.state.candidates[1].hand = hands["2"];
     this.state.order[0] = this.state.candidates[0].hand.map(c => c.id);
     this.state.order[1] = this.state.candidates[1].hand.map(c => c.id);
+    this.state.turn = this.state.candidates[0]
   }
 
   generateName() {
@@ -60,6 +64,26 @@ class App extends React.Component {
     this.deck.discard(card.name);
   }
 
+  nextTurn() {
+    var pointer = this.state.candidates.indexOf(this.state.turn)
+    if (pointer === this.state.candidates.length - 1) {
+      // next round, reset to first candidate
+      // or end game
+      let nextRound = this.state.round - 1
+      if (nextRound <= 0) { this.endGame() }
+      this.setState({
+        round: nextRound,
+        turn: this.state.candidates[0],
+      })
+    } else {
+      this.setState({turn: this.state.candidates[pointer+1]})
+    }
+  }
+
+  endGame() {
+    console.log("end of the game")
+  }
+
   onDragEnd = result => {
     const { draggableId, destination, source } = result;
 
@@ -79,6 +103,7 @@ class App extends React.Component {
         const targetId = Number.parseInt(destination.droppableId.substring(1));
         let target = this.state.candidates[targetId];
         this.applyCardEffects(target, theCard)
+        this.nextTurn()
     }
   }
 
@@ -87,14 +112,14 @@ class App extends React.Component {
     <div className="App">
       <header className="App-header">
         <div>
-          Cards: {this.deck.drawn.length} Candidates: {this.state.candidates.length} Turn: -
+          Cards: {this.deck.drawn.length} Candidates: {this.state.candidates.length} Turn: {this.state.round} weeks to go - {this.state.turn.name}'s turn
         </div>
       </header>
       <DragDropContext onDragEnd={this.onDragEnd} >
-        <Side candidate={this.state.candidates[0]} order={this.state.order[0]} handId={"1"} />
-        <Side candidate={this.state.candidates[1]} order={this.state.order[1]} handId={"2"} />
+        <Side candidate={this.state.candidates[0]} order={this.state.order[0]} handId={"1"} currentPlayer={this.state.turn === this.state.candidates[0]}/>
+        <Side candidate={this.state.candidates[1]} order={this.state.order[1]} handId={"2"} currentPlayer={this.state.turn === this.state.candidates[1]}/>
       </DragDropContext>
-
+      {!this.state.round && <FinalResult />}
     </div>
   );
 }
