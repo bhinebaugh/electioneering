@@ -19,7 +19,7 @@ class App extends React.Component {
         {id: "1", name: this.generateName(), stats: {polling: 35, funding: 0, media: 0, endorsements: 0, staff: 0, volunteers: 0, enthusiasm: 0, }, characteristics: [], },
       ],
       order: [],
-      round: 4, // counts down, representing weeks until election day
+      round: 2, // counts down, representing weeks until election day
       turn: null,
     }
     const hands = this.deck.deal(2,4);
@@ -119,7 +119,7 @@ class App extends React.Component {
         <Side candidate={this.state.candidates[0]} order={this.state.order[0]} handId={"1"} currentPlayer={this.state.turn === this.state.candidates[0]}/>
         <Side candidate={this.state.candidates[1]} order={this.state.order[1]} handId={"2"} currentPlayer={this.state.turn === this.state.candidates[1]}/>
       </DragDropContext>
-      {!this.state.round && <FinalResult />}
+      {!this.state.round && <FinalResult candidates={this.state.candidates} />}
     </div>
   );
 }

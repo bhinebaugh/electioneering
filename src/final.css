@@ -1,0 +1,12 @@
+#final {
+    position: absolute;
+    height: 50vh;
+    width: 60vw;
+	top: 20vh;
+	background: #f8f8f8;
+	margin: auto;
+	left: 20vw;
+	padding: 2rem 3rem;
+	box-sizing: border-box;
+	border: double #337373 7px;
+}
