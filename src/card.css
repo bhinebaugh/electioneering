@@ -1,15 +1,16 @@
 .card {
-    background: #ebe6df;
+    background: #d5e5ff;
     border: solid 1px #888;
-    border-radius: 10px;
+    border-radius: 2px;
     box-shadow: 1px 2px 0px #00000090;
     /* box-shadow: inset 0px 0px 10px #beb493; */
     margin: 0 16px 0 0;
     width: 140px;
 }
 .card h1 {
+    background: #94c8fd;
     border-bottom: solid 1px #888;
-    color: #637d7d;
+    color: #4c5b97;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -17,11 +18,27 @@
     height: 2.5em;
     font-size: 20px;
     margin: 0;
-    padding: 0.2em;
+    padding: 0.5rem 1rem;
+}
+.requirements {
+    background: #4c5b97;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
+}
+.requirements div {
+    background:#b0b7ca;
+    padding: 0.5rem;
+    position: relative;
+    top: 5px;
 }
 .content {
     font-size: 13px;
-    padding: 10px;
+    padding: 0 1rem;
+}
+.description {
+    font-style: italic;
 }
 .effects {
 	text-align: left;

@@ -10,10 +10,17 @@ const Card = ({ name, description, effects, attributes, provided, ...rest }) => 
             {...provided.dragHandleProps}
             ref={provided.innerRef}
         >
-            <h1>{name}</h1>
+            <header>
+                <h1>{name}</h1>
+                <div className="requirements">
+                    <div>1</div>
+                    <div>1</div>
+                    <div>1</div>
+                </div>
+            </header>
             <div className="content">
 
-            <p>{description}</p>
+            <p className="description">{description}</p>
             <ul className="effects">
                 {Object.keys(effects).map(effect => <li key={name+effect}>{effect}: {effects[effect]}</li>)}
             </ul>

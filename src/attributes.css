@@ -8,6 +8,8 @@
 .attributes li {
     background: #f0f0d0;
     border: solid 1px #cc9;
+    border-radius: 2px;
     color: #884;
+    margin: 0.2em 0;
     padding: 0.2em;
 }
