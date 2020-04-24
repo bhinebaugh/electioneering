@@ -4,10 +4,11 @@ import AttributeList from './AttributeList';
 import './candidate.css';
 
 function Candidate(props) {
-    const componentClasses = props.active ? "candidate active" : "candidate"
+    var componentClasses = ["candidate"];
+    if (props.active) componentClasses.push("active");
+    if (props.isDraggingOver) componentClasses.push("targeted");
     return (
-        <div className={componentClasses}
-            style={props.isDraggingOver ? { "background": "blue" } : null}
+        <div className={componentClasses.join(" ")}
             ref={props.provided.innerRef}
             {...props.provided.droppableProps}
         >

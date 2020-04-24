@@ -24,7 +24,9 @@ class Side extends React.Component {
                             provided={provided}
                             isDraggingOver={snapshot.isDraggingOver}
                         >
-                            {provided.placeholder}
+                            <div className="card-drop">
+                                {provided.placeholder}
+                            </div>
                         </Candidate>
                     )}
                 </Droppable>

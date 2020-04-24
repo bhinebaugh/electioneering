@@ -3,6 +3,11 @@ body {
   color: #101717;
 }
 
+/* style applied to card or hand when dragging over */
+.targeted {
+  background-color: #8995ac;
+}
+
 .App-header {
   background-color: #777177;
   display: flex;

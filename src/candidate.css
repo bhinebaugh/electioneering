@@ -1,5 +1,6 @@
 .candidate {
     margin-left: 8px;
+    position: relative;
     width: 200px;
 }
 .candidate.active h2 {
@@ -27,4 +28,11 @@
 }
 .candidate td:first-child {
     text-align: left;
+}
+
+.candidate .card-drop {
+    background: transparent;
+    position: absolute;
+    left: 0;
+    top: 0;
 }
