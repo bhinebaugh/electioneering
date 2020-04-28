@@ -21,26 +21,40 @@
     padding: 0.5rem 1rem;
 }
 .requirements {
-    background: #4c5b97;
+    background: #517ddd;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     width: 100%;
 }
 .requirements div {
-    background:#b0b7ca;
-    padding: 0.5rem;
-    position: relative;
-    top: 5px;
+	padding: 0.15rem 0.5rem;
+	color: white;
+	font-weight: 800;
+	border: 2px solid #afbcf463;
+	/* flex: 1 1 auto; */
+	align-self: center;
+	margin: 5px;
+	border-radius: 8px;
 }
+.req-funds { background: #80b3a994; }
+.req-staff { background: #aaa995b3; }
+.req-volunteers { background: #a383c4b3; }
 .content {
     font-size: 13px;
-    padding: 0 1rem;
+    padding: 0;
 }
 .description {
-    font-style: italic;
+	font-style: italic;
+	background: #b7c4df;
+	padding: 0.6em 0.6em .8em;
+	margin: 0;
+	color: #33476f;
 }
 .effects {
 	text-align: left;
-	padding-left: 24px;
+	padding-left: 0.6em;
+	list-style: none;
+	font-weight: bold;
+	color: #4c5b97;
 }

@@ -12,9 +12,14 @@ const DIRTY = "dirty";
 const SERIOUS = "serious";
 const LEGIT = "legit";
 const LIKEABLE = "likeable";
+const ESTABLISHMENT = "establishment";
 const ANTIESTABLISHMENT = "antiestablishment";
 const OUTSIDER = "outsider";
 const POPULIST = "populist";
+// characteristic brainstorming:
+// UPSTART, SUAVE, SLICK, EVASIVE, RELIABLE, BIPARTISAN, DIVISIVE
+// ELITE, ALOOF, COLD, WARM, OUT_OF_TOUCH, RELATABLE, SCANDALOUS
+// INSIDER, CROOKED, POLISHED, SMOOTH, BOLD, RUDE, ROUGH
 const target = ["self", "opponent"];
 
 var demographics = [
@@ -43,14 +48,14 @@ function Card(name, description, effects = {}, attributes = []) {
 
 var policy = new Card("policy paper", "release a detailed plan on an issue", { enthusiasm: 1, media: 2 }, [SERIOUS]);
 var tv1 = new Card("late night appearance", "chat with a talk show host", { polling: 3, media: 2, }, [LIKEABLE]);
-var pol = new Card("endorsement", "a politician endorses you", { endorsements: 1, polling: Math.round(1 + Math.random()*3), })
+var pol = new Card("endorsement", "a politician endorses you", { endorsements: 1, polling: Math.round(1 + Math.random()*3)}, [ESTABLISHMENT]);
 var pundit = new Card("pundit", "a talking head talks up your campaign on TV", { polling: 2, }, [LEGIT]);
 var meme = new Card("viral moment", "a social media clip is widely shared", { media: 2, polling: 5 }, [LIKEABLE]);
 var tri = new Card("triangulate", "shift to center to appeal to a more general audience", {}, [MODERATE, INCONSISTENT]);
 var oneliner = new Card("one-liner", "memorable debate moment has everyone talking", { enthusiasm: 2, polling: 1 });
 var superpac = new Card("SuperPAC", "money money money! (strings attached)", { funding: 4, polling: -2 }, [CORPORATE, SHADY]);
 var phone = new Card("phone banking", "volunteers make lots of calls for you", { polling: 2, turnout: 2 }, [GRASSROOTS]);
-var tv2 = new Card("attack ad", "run a TV spot slamming your opponent", { polling: -2 }, [CYNICAL, DIRTY, NEGATIVE]);
+var tv2 = new Card("attack ad", "run a TV spot slamming your opponent", { polling: -2 }, [CYNICAL, DIRTY, NEGATIVE]); // should reduce opponent's polling, but apply (-) characteristics to you
 var nickname = new Card("nickname", "an affectionate moniker gets added to your name", { opinion: 1 }, [LIKEABLE]);
 
 

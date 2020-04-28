@@ -1,5 +1,7 @@
 .candidate {
-    margin-left: 8px;
+    border-radius: 4px;
+    margin: 8px 0 0 8px;
+    padding: 0 4px;
     position: relative;
     width: 200px;
 }

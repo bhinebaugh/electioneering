@@ -13,9 +13,9 @@ const Card = ({ name, description, effects, attributes, provided, ...rest }) => 
             <header>
                 <h1>{name}</h1>
                 <div className="requirements">
-                    <div>1</div>
-                    <div>1</div>
-                    <div>1</div>
+                    <div class="req-funds">1</div>
+                    <div class="req-staff">1</div>
+                    <div class="req-volunteers">1</div>
                 </div>
             </header>
             <div className="content">
