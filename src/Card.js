@@ -3,7 +3,16 @@ import PropTypes from 'prop-types';
 import AttributeList from './AttributeList';
 import './card.css'
 
-const Card = ({ name, description, effects, attributes, provided, ...rest }) => {
+const Card = ({ name, description, requirements, effects, attributes, provided, ...rest }) => {
+    var reqHtml = <div className="requirements"></div>;
+    if (requirements) {
+        const { funding, staff, volunteers } = requirements;
+        reqHtml = <div className="requirements">
+                <div class="req-funds">{funding}</div>
+                <div class="req-staff">{staff}</div>
+                <div class="req-volunteers">{volunteers}</div>
+            </div>
+    }
     return (
         <div className="card"
             {...provided.draggableProps}
@@ -12,11 +21,7 @@ const Card = ({ name, description, effects, attributes, provided, ...rest }) => 
         >
             <header>
                 <h1>{name}</h1>
-                <div className="requirements">
-                    <div class="req-funds">1</div>
-                    <div class="req-staff">1</div>
-                    <div class="req-volunteers">1</div>
-                </div>
+                {reqHtml}
             </header>
             <div className="content">
 

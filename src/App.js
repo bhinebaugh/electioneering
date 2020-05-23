@@ -1,6 +1,7 @@
 import React from 'react';
 import Deckbuilder from 'deckbuilder';
 import Side from './Side';
+import Polls from './Polls';
 import FinalResult from './FinalResult';
 import { surnames, firstNames } from './settings';
 import { cardSet } from './card-definitions';
@@ -15,11 +16,12 @@ class App extends React.Component {
     this.prepareCards(this.deck);
     this.state = {
       candidates: [
-        {id: "0", name: this.generateName(), stats: {polling: 35, funding: 0, media: 0, endorsements: 0, staff: 0, volunteers: 0, enthusiasm: 0, }, characteristics: [], },
-        {id: "1", name: this.generateName(), stats: {polling: 35, funding: 0, media: 0, endorsements: 0, staff: 0, volunteers: 0, enthusiasm: 0, }, characteristics: [], },
+        // media subtypes: earned, paid, owned, relational/social
+        {id: "0", name: this.generateName(), resources: { funding: 10, staff: 1, volunteers: 0 }, stats: { polling: 35, media: 0, endorsements: 0, events: 0 }, characteristics: [], },
+        {id: "1", name: this.generateName(), resources: { funding: 10, staff: 1, volunteers: 0 }, stats: { polling: 35, media: 0, endorsements: 0, events: 0 }, characteristics: [], },
       ],
       order: [],
-      round: 2, // counts down, representing weeks until election day
+      round: 4, // counts down to 0, representing weeks until election day
       turn: null,
     }
     const hands = this.deck.deal(2,4);
@@ -110,13 +112,9 @@ class App extends React.Component {
 
   render = (props) => (
     <div className="App">
-      <header className="App-header">
-        <div>
-          Cards: {this.deck.drawn.length} Candidates: {this.state.candidates.length} Turn: {this.state.round} weeks to go - {this.state.turn.name}'s turn
-        </div>
-      </header>
       <DragDropContext onDragEnd={this.onDragEnd} >
         <Side candidate={this.state.candidates[0]} order={this.state.order[0]} handId={"1"} currentPlayer={this.state.turn === this.state.candidates[0]}/>
+        <Polls round={this.state.round} candidates={this.state.candidates} />
         <Side candidate={this.state.candidates[1]} order={this.state.order[1]} handId={"2"} currentPlayer={this.state.turn === this.state.candidates[1]}/>
       </DragDropContext>
       {!this.state.round && <FinalResult candidates={this.state.candidates} />}

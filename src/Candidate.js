@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AttributeList from './AttributeList';
+import ResourcesList from './ResourcesList';
 import './candidate.css';
 
 function Candidate(props) {
     var componentClasses = ["candidate"];
+    const { funding, staff, volunteers } = props.resources;
     if (props.active) componentClasses.push("active");
     if (props.isDraggingOver) componentClasses.push("targeted");
     return (
@@ -13,8 +15,9 @@ function Candidate(props) {
             {...props.provided.droppableProps}
         >
             <h2>{props.name}</h2>
+            <ResourcesList resources={props.resources} />
             <table>
-                <thead><tr><th>stat</th><th>value</th></tr></thead>
+                <thead><tr><th colSpan="2">statistics</th></tr></thead>
                 <tbody>
                 {Object.keys(props.stats).map(stat => (
                     <tr key={stat}><td>{stat}</td><td>{props.stats[stat]}</td></tr>

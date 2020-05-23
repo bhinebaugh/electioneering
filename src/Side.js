@@ -19,6 +19,7 @@ class Side extends React.Component {
                         <Candidate
                             name={candidate.name}
                             stats={candidate.stats}
+                            resources={candidate.resources}
                             active={currentPlayer}
                             characteristics={candidate.characteristics}
                             provided={provided}

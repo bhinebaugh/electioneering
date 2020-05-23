@@ -1,0 +1,32 @@
+#polls {
+    display: flex;
+}
+#latest-poll {
+    display: flex;
+    flex: 0 1 200px;
+}
+#latest-poll dl {
+    display: flex;
+    flex-direction: column;
+	margin: 5px;
+	padding: 10px 12px;
+	border: 1px solid;
+}
+#latest-poll dl:first-child {
+    border-top-width: 0;
+}
+#latest-poll dl:last-child {
+    border-bottom-width: 0;
+}
+#latest-poll dt {
+    font-size: 0.8em;
+}
+#latest-poll dd {
+    font-size: 2em;
+    font-weight: bold;
+    margin: 0;
+}
+
+.central-section {
+    padding: 1rem;
+}

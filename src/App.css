@@ -21,3 +21,9 @@ body {
 .App-link {
   color: #09d3ac;
 }
+
+:root {
+  --color-funding: #ac9;
+  --color-staff:   #db7;
+  --color-volunteers: #a7c;
+}

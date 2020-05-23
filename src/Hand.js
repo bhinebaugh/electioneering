@@ -22,6 +22,7 @@ function Hand(props) {
                             provided={provided}
                             name={card.name}
                             description={card.description}
+                            requirements={card.requirements}
                             effects={card.effects}
                             attributes={card.attributes}
                         />

@@ -1,0 +1,29 @@
+ul.resources-list {
+	display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+	list-style: none;
+	padding: 0;
+}
+
+li.resource-item {
+    align-items: center;
+	background: honeydew;
+	border: 1px solid #888;
+    display: flex;
+    flex-basis: 3rem;
+	flex-direction: column;
+	padding: 5px;
+}
+li.resource-item.funding    { background: var(--color-funding) }
+li.resource-item.staff      { background: var(--color-staff) }
+li.resource-item.volunteers { background: var(--color-volunteers) }
+
+.resource-item dt {
+    font-size: 0.75rem;
+}
+.resource-item dd {
+    font-size: 2rem;
+	font-weight: bold;
+	margin: 0;
+}
