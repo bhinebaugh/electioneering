@@ -8,9 +8,9 @@ const Card = ({ name, description, requirements, effects, attributes, provided, 
     if (requirements) {
         const { funding, staff, volunteers } = requirements;
         reqHtml = <div className="requirements">
-                <div class="req-funds">{funding}</div>
-                <div class="req-staff">{staff}</div>
-                <div class="req-volunteers">{volunteers}</div>
+                <div className="req-funds">{funding}</div>
+                <div className="req-staff">{staff}</div>
+                <div className="req-volunteers">{volunteers}</div>
             </div>
     }
     return (

@@ -59,6 +59,21 @@ class App extends React.Component {
     });
   }
 
+  validatePlay = (player, target, card) => {
+    // is target allowed for this card?
+    // player === target ?
+    if (!card.requirements) {
+      return true
+    }
+    for (const req in card.requirements) {
+      if (card.requirements[req] > player.resources[req]) {
+        console.log("didn't meet reqt for", req)
+        return false
+      }
+    }
+    return true
+  }
+
   applyCardEffects = (candidate, card) => {
     const { effects, attributes } = card;
     for(const effect in effects) {
@@ -110,11 +125,18 @@ class App extends React.Component {
         // card was played to another area
         let candid = this.state.candidates[Number.parseInt(source.droppableId)]
         let theCard = candid.hand.find(c => c.id === draggableId)
-        this.updateCardOrder(source.droppableId, source.index)
+        // does candidate meet reqs to play card?
         const targetId = Number.parseInt(destination.droppableId.substring(1));
         let target = this.state.candidates[targetId];
-        this.applyCardEffects(target, theCard)
-        this.nextTurn()
+        // if applyCardEffects
+        if (this.validatePlay(candid, target, theCard)) {
+          this.updateCardOrder(source.droppableId, source.index)
+          this.applyCardEffects(target, theCard)
+          this.nextTurn()
+        } else {
+          // return to hand
+          return false
+        }
     }
   }
 
