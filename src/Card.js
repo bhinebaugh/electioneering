@@ -29,7 +29,7 @@ const Card = ({ name, description, requirements, effects, attributes, provided, 
             <ul className="effects">
                 {Object.keys(effects).map(effect => <li key={name+effect}>{effect}: {effects[effect]}</li>)}
             </ul>
-            <AttributeList attributes={attributes} />
+            <AttributeList attributes={attributes.reduce((o, a) => { o[a] = 1; return o }, {})} />
             </div>
         </div>
     )

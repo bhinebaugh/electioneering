@@ -17,13 +17,15 @@ class App extends React.Component {
     this.state = {
       candidates: [
         // media subtypes: earned, paid, owned, relational/social
-        {id: "0", name: this.generateName(), resources: { funding: 10, staff: 1, volunteers: 0 }, stats: { polling: 35, media: 0, endorsements: 0, events: 0 }, characteristics: [], },
-        {id: "1", name: this.generateName(), resources: { funding: 10, staff: 1, volunteers: 0 }, stats: { polling: 35, media: 0, endorsements: 0, events: 0 }, characteristics: [], },
+        {id: "0", name: this.generateName(), resources: { funding: 10, staff: 2, volunteers: 0 }, stats: { polling: 35, media: 0, endorsements: 0, events: 0 }, characteristics: {}, },
+        {id: "1", name: this.generateName(), resources: { funding: 10, staff: 2, volunteers: 0 }, stats: { polling: 35, media: 0, endorsements: 0, events: 0 }, characteristics: {}, },
       ],
       order: [],
       round: 4, // counts down to 0, representing weeks until election day
       turn: null,
     }
+    // characteristics: [ [SERIOUS, 2], [SHADY, 1] ]
+    // characteristics: { SERIOUS: 2, SHADY: 1 }
     const hands = this.deck.deal(2,4);
     this.state.candidates[0].hand = hands["1"];
     this.state.candidates[1].hand = hands["2"];
@@ -62,7 +64,14 @@ class App extends React.Component {
     for(const effect in effects) {
       if (candidate.stats && typeof candidate.stats[effect] !== "undefined") candidate.stats[effect] += effects[effect]
     }
-    attributes.forEach(attr => candidate.characteristics.push(attr));
+    attributes.forEach(attr => {
+      if (candidate.characteristics.hasOwnProperty(attr)) {
+        // catch NaN
+        candidate.characteristics[attr]++
+      } else {
+        candidate.characteristics[attr] = 1
+      }
+    })
     this.deck.discard(card.name);
   }
 
