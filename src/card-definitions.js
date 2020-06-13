@@ -57,7 +57,62 @@ function Card(
 
 const cardDefinitions = [
     {
+        frequency: 4,
+        card: new Card(
+            "hire staff", "increase your campaign's capacity by adding more people",
+            { funding: 3 },
+            { staff: 2 }, [LEGIT]
+        )
+    },
+    {
         frequency: 3,
+        card: new Card(
+            "big fundraiser", "hold an exclusive event to encourage large donations",
+            { staff: 2 },
+            { funding: 5 }, [CORPORATE]
+        )
+    },
+    {
+        frequency: 3,
+        card: new Card(
+            "small online donations", "contributions through your website add up",
+            { staff: 1 },
+            { funding: 3 }, [GRASSROOTS]
+        )
+    },
+    {
+        frequency: 2,
+        card: new Card(
+            "recruit volunteers", "ask as part of outreach",
+
+        )
+    },
+    {
+        frequency: 4,
+        card: new Card(
+            "stump speech", "speak to the people on the campaign trail",
+            { staff: 1 }, // better w/ more staff? multiplied by endorsement?
+            { volunteers: 1, enthusiasm: 2 }, [GRASSROOTS, POPULIST]
+        )
+    },
+    {
+        frequency: 2,
+        card: new Card(
+            "community endorsement", "outreach pays off",
+            { staff: 2 },
+            { volunteers: 1, endorsements: 1, media: 1 }, [GRASSROOTS]
+        )
+    },
+    {
+        frequency: 2,
+        card: new Card(
+            "business endorsement", "dividends of shmoozing",
+            { staff: 2 },
+            { funding: 1, endorsements: 1, media: 1 }, [CORPORATE]
+        )
+    },
+    {
+        frequency: 2,
         // def attr value setting
         card: new Card(
             "policy paper", "release a detailed plan on an issue",
@@ -70,8 +125,16 @@ const cardDefinitions = [
         card: new Card(
             "late night appearance", "chat with a talk show host",
             // [ {staff: 2}, {funding: 4}],
-            {staff: 2},
+            { staff: 2 },
             { polling: 3, media: 2, }, [LIKEABLE]
+        )
+    },
+    {
+        frequency: 1,
+        card: new Card(
+            "hit piece", "a scathing newspaper article", 
+            { },
+            { polling: -6 }, []
         )
     },
     {
@@ -125,7 +188,7 @@ const cardDefinitions = [
         )
     },
     {
-        frequency: 1,
+        frequency: 2,
         card: new Card(
             "phone banking", "volunteers make lots of calls for you", 
             { volunteers: 3 },
@@ -133,11 +196,11 @@ const cardDefinitions = [
         )
     },
     {
-        frequency: 1,
+        frequency: 2,
         card: new Card(
-            "attack ad", "run a TV spot slamming your opponent", 
-            { funding: 3, staff: 2 },
-            { polling: -5 }, [CYNICAL, DIRTY, NEGATIVE] // should reduce opponent's polling, but apply (-) characteristics to you
+            "door knocking", "volunteers canvass for you", 
+            { volunteers: 3 },
+            { polling: 2, turnout: 3 }, [GRASSROOTS]
         )
     },
     {
@@ -149,7 +212,15 @@ const cardDefinitions = [
         )
     },
     {
-        frequency: 1,
+        frequency: 2,
+        card: new Card(
+            "attack ad", "run a TV spot slamming your opponent", 
+            { funding: 3, staff: 2 },
+            { polling: -5 }, [CYNICAL, DIRTY, NEGATIVE] // should reduce opponent's polling, but apply (-) characteristics to you
+        )
+    },
+    {
+        frequency: 2,
         card: new Card(
             "inspirational campaign ad", "slick and uplifting",
             { funding: 4, staff: 2 },

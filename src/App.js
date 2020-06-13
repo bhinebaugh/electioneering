@@ -76,8 +76,14 @@ class App extends React.Component {
 
   applyCardEffects = (candidate, card) => {
     const { effects, attributes } = card;
+    // TODO: allow cards to change resource amounts
+    const resourceNames = Object.keys(candidate.resources)
     for(const effect in effects) {
-      if (candidate.stats && typeof candidate.stats[effect] !== "undefined") candidate.stats[effect] += effects[effect]
+      if (resourceNames.includes(effect)) {
+        candidate.resources[effect] += effects[effect]
+      } else if (candidate.stats && typeof candidate.stats[effect] !== "undefined") {
+        candidate.stats[effect] += effects[effect]
+      }
     }
     attributes.forEach(attr => {
       if (candidate.characteristics.hasOwnProperty(attr)) {
@@ -128,13 +134,12 @@ class App extends React.Component {
         // does candidate meet reqs to play card?
         const targetId = Number.parseInt(destination.droppableId.substring(1));
         let target = this.state.candidates[targetId];
-        // if applyCardEffects
         if (this.validatePlay(candid, target, theCard)) {
           this.updateCardOrder(source.droppableId, source.index)
           this.applyCardEffects(target, theCard)
           this.nextTurn()
         } else {
-          // return to hand
+          // invalid move; return to hand
           return false
         }
     }

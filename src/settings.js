@@ -109,7 +109,7 @@ export const surnames = [
 	"Johnson",
 	"Johnson",
 	"Ortega",
-	"Turner",,
+	"Turner",
 	"Coleman",
 	"Pacheco",
 	"VanDeaver",
