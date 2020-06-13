@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "deckbuilder": "^1.0.4",
-    "react": "^16.12.0",
+    "deckbuilder": "^1.1.2",
+    "react": "^16.13.1",
     "react-beautiful-dnd": "^12.1.1",
-    "react-dom": "^16.12.0",
-    "react-scripts": "^3.4.0"
+    "react-dom": "^16.13.1",
+    "react-scripts": "^3.4.1"
   },
   "scripts": {
     "start": "react-scripts start",
