@@ -24,6 +24,7 @@ class App extends React.Component {
       round: 4, // counts down to 0, representing weeks until election day
       turn: null,
     }
+    this.ROUND_LENGTH = this.state.candidates.length - 1; // allow for a potentially variable number of players
     // characteristics: [ [SERIOUS, 2], [SHADY, 1] ]
     // characteristics: { SERIOUS: 2, SHADY: 1 }
     const hands = this.deck.deal(2,4);
@@ -52,7 +53,7 @@ class App extends React.Component {
   updateCardOrder = (id, sourceIndex, destinationIndex=-1) => {
     let target = Number.parseInt(id);
     let newOrder = Array.from(this.state.order);
-    let [removedCard] = newOrder[target].splice(sourceIndex, 1);
+    let [removedCard] = newOrder[target].splice(sourceIndex, 1); // or filter?
     if (destinationIndex >= 0) newOrder[target].splice(destinationIndex, 0, removedCard);
     this.setState({
       order: newOrder
@@ -98,7 +99,7 @@ class App extends React.Component {
 
   nextTurn() {
     var pointer = this.state.candidates.indexOf(this.state.turn)
-    if (pointer === this.state.candidates.length - 1) {
+    if (pointer === this.ROUND_LENGTH) {
       // next round, reset to first candidate
       // or end game
       let nextRound = this.state.round - 1
@@ -129,14 +130,28 @@ class App extends React.Component {
         this.updateCardOrder(destination.droppableId, source.index, destination.index)
     } else {
         // card was played to another area
-        let candid = this.state.candidates[Number.parseInt(source.droppableId)]
+        let candids = this.state.candidates
+        let candid = candids[Number.parseInt(source.droppableId)]
         let theCard = candid.hand.find(c => c.id === draggableId)
-        // does candidate meet reqs to play card?
         const targetId = Number.parseInt(destination.droppableId.substring(1));
         let target = this.state.candidates[targetId];
         if (this.validatePlay(candid, target, theCard)) {
           this.updateCardOrder(source.droppableId, source.index)
+          candid.hand.splice(candid.hand.indexOf(theCard),1)
           this.applyCardEffects(target, theCard)
+
+          // deal replacement card
+          const drawNew = this.deck.deal(1,1) // this.deck.draw(1)
+          const newCard = drawNew["1"][0]
+          candid.hand.push(newCard)
+
+          var newOrder = [...this.state.order]
+          newOrder[source.droppableId].push(newCard.id)
+          // updateCardOrder: allow adding a card
+          this.setState({ 
+            order: newOrder,
+            candidates: candids
+          })
           this.nextTurn()
         } else {
           // invalid move; return to hand
