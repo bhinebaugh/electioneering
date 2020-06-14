@@ -1,12 +1,42 @@
+#overlay {
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100vh;
+	width: 100vw;
+	background-color: #b3b3b370;
+}
+
 #final {
     position: absolute;
     height: 50vh;
     width: 60vw;
 	top: 20vh;
-	background: #f8f8f8;
-	margin: auto;
 	left: 20vw;
-	padding: 2rem 3rem;
-	box-sizing: border-box;
+	background: #ece2c3;
 	border: double #337373 7px;
+	box-shadow: 3rem 0px 3rem 3rem #00000036;
+	box-sizing: border-box;
+	margin: auto;
+	padding: 0;
+}
+
+#final header {
+	padding: 2rem;
+	background: #991f1f;
+	text-align: center;
+}
+#final h1 { 
+	color: #f0eee6;
+}
+
+#final > div {
+	padding: 2rem;
+}
+.winner {
+	font-weight: 600;
+	color: #881414;
+}
+.also-ran {
+	color: #444;
 }
