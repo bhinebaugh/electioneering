@@ -23,6 +23,7 @@ class App extends React.Component {
       order: [],
       round: 4, // counts down to 0, representing weeks until election day
       turn: null,
+      winner: null,
     }
     this.ROUND_LENGTH = this.state.candidates.length - 1; // allow for a potentially variable number of players
     // characteristics: [ [SERIOUS, 2], [SHADY, 1] ]
@@ -115,6 +116,8 @@ class App extends React.Component {
 
   endGame() {
     console.log("end of the game")
+    var highestPolling = this.state.candidates.reduce( (a,b) => a.polling < b.polling ? a : b)
+    this.setState({ winner: highestPolling.id })
   }
 
   onDragEnd = result => {
@@ -168,7 +171,7 @@ class App extends React.Component {
         <Polls round={this.state.round} candidates={this.state.candidates} />
         <Side candidate={this.state.candidates[1]} order={this.state.order[1]} handId={"2"} currentPlayer={this.state.turn === this.state.candidates[1]}/>
       </DragDropContext>
-      {!this.state.round && <FinalResult candidates={this.state.candidates} />}
+      {!this.state.round && <FinalResult candidates={this.state.candidates} winner={this.state.winner} />}
     </div>
   );
 }
