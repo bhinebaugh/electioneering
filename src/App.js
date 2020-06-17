@@ -17,8 +17,8 @@ class App extends React.Component {
     this.state = {
       candidates: [
         // media subtypes: earned, paid, owned, relational/social
-        {id: "0", name: this.generateName(), resources: { funding: 10, staff: 2, volunteers: 0 }, stats: { polling: 35, media: 0, endorsements: 0, events: 0 }, characteristics: {}, },
-        {id: "1", name: this.generateName(), resources: { funding: 10, staff: 2, volunteers: 0 }, stats: { polling: 35, media: 0, endorsements: 0, events: 0 }, characteristics: {}, },
+        {id: "0", name: this.generateName(), resources: { funding: 4, staff: 1, volunteers: 0 }, stats: { polling: 35, media: 0, endorsements: 0, events: 0 }, characteristics: {}, },
+        {id: "1", name: this.generateName(), resources: { funding: 4, staff: 1, volunteers: 0 }, stats: { polling: 35, media: 0, endorsements: 0, events: 0 }, characteristics: {}, },
       ],
       order: [],
       round: 4, // counts down to 0, representing weeks until election day
