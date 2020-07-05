@@ -1,8 +1,9 @@
 .attributes {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap-reverse;
     justify-content: space-around;
     list-style: none;
+    margin-top: auto;
     padding: 0;
 }
 .attributes li {

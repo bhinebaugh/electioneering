@@ -23,7 +23,7 @@ body {
 }
 
 :root {
-  --color-funding: #ac9;
-  --color-staff:   #db7;
-  --color-volunteers: #a7c;
+	--color-funding: #69d9c394;
+	--color-staff: #d9d47cb3;
+	--color-volunteers: #bfa1dfb3;
 }

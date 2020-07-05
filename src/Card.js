@@ -8,9 +8,9 @@ const Card = ({ name, description, requirements, effects, attributes, provided, 
     if (requirements) {
         const { funding, staff, volunteers } = requirements;
         reqHtml = <div className="requirements">
-                <div className="req-funds">{funding}</div>
-                <div className="req-staff">{staff}</div>
-                <div className="req-volunteers">{volunteers}</div>
+                <div className="req-funds">{funding || '-'}</div>
+                <div className="req-staff">{staff || '-'}</div>
+                <div className="req-volunteers">{volunteers || '-'}</div>
             </div>
     }
     return (
@@ -27,7 +27,7 @@ const Card = ({ name, description, requirements, effects, attributes, provided, 
 
             <p className="description">{description}</p>
             <ul className="effects">
-                {Object.keys(effects).map(effect => <li key={name+effect}>{effect}: {effects[effect]}</li>)}
+                {Object.keys(effects).map(effect => <li key={name+effect}><span className="term">{effect}:</span><span className="value">{effects[effect] > 0 ? '+' : '' }{effects[effect]}</span></li>)}
             </ul>
             <AttributeList attributes={attributes.reduce((o, a) => { o[a] = 1; return o }, {})} />
             </div>

@@ -9,11 +9,13 @@ ul.resources-list {
 li.resource-item {
     align-items: center;
 	background: honeydew;
-	border: 1px solid #888;
+	border: 2px solid #979797b8;
     display: flex;
     flex-basis: 3rem;
 	flex-direction: column;
 	padding: 5px;
+	margin: .1em;
+	border-radius: .5em;
 }
 li.resource-item.funding    { background: var(--color-funding) }
 li.resource-item.staff      { background: var(--color-staff) }

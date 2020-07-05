@@ -1,22 +1,25 @@
 .card {
     background: #d5e5ff;
     border: solid 1px #888;
-    border-radius: 2px;
-    box-shadow: 1px 2px 0px #00000090;
+    border-radius: 6px;
+    box-shadow: 1px 2px 3px 2px #0000001a;
     /* box-shadow: inset 0px 0px 10px #beb493; */
+    display: flex;
+    flex-direction: column;
     margin: 0 16px 0 0;
     width: 140px;
 }
 .card h1 {
     background: #94c8fd;
+    background: linear-gradient(to right, #4068c1, #4f75ca, #4068c1);
     border-bottom: solid 1px #888;
-    color: #4c5b97;
+    color: #e6eeff;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     height: 2.5em;
-    font-size: 20px;
+    font-size: 1rem;
     margin: 0;
     padding: 0.5rem 1rem;
 }
@@ -30,31 +33,44 @@
 .requirements div {
 	border: 2px solid #afbcf463;
     border-radius: 8px;
-	color: white;
+	color: #fff9;
 	font-weight: 800;
 	padding: 0.15rem 0.5rem;
 	margin: 5px;
     text-align: center;
     width: 2em;
 }
-.req-funds { background: #80b3a994; }
-.req-staff { background: #aaa995b3; }
-.req-volunteers { background: #a383c4b3; }
+.req-funds { background: var(--color-funding); }
+.req-staff { background: var(--color-staff); }
+.req-volunteers { background: var(--color-volunteers); }
 .content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
     font-size: 13px;
     padding: 0;
 }
 .description {
-	font-style: italic;
-	background: #b7c4df;
+    font-style: italic;
+    background: #bcd0f0;
 	padding: 0.6em 0.6em .8em;
 	margin: 0;
-	color: #33476f;
+    color: #33476f;
 }
 .effects {
 	text-align: left;
-	padding-left: 0.6em;
+	padding: 0 0.6em;
 	list-style: none;
-	font-weight: bold;
 	color: #4c5b97;
+}
+.effects li {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+.effects .term {
+    flex: 1;
+}
+.effects .value {
+    font-weight: bold;
 }
