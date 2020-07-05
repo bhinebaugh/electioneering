@@ -1,5 +1,27 @@
 import React from 'react'
 import './final.css'
+import { render } from 'react-dom'
+
+const VOTE_EQUIVALENT = 1000
+
+const CandidateResult  = ({ candidate, won }) => {
+    const { name, id, stats: { enthusiasm, polling } } = candidate
+    const turnout = (1.00 + enthusiasm/100) * VOTE_EQUIVALENT
+    const votes = polling * turnout
+    return (
+        <tr
+            key={id}
+            className={ won ? "winner" : "also-ran" }
+        >
+            <td>{name}</td>
+            <td>{polling}%</td>
+            <td>{enthusiasm}</td>
+            <td>{turnout}</td>
+            <td>{votes.toLocaleString() }</td>
+        </tr>
+
+    )
+}
 
 const FinalResult = ({ candidates, winner }) => {
     return(
@@ -9,17 +31,25 @@ const FinalResult = ({ candidates, winner }) => {
                 <h1>Election Day Results</h1>
             </header>
             <div>
-                <p>Polls have closed and votes have been tallied</p>
+                <p>The polls have closed and the votes have been tallied. Results are in:</p>
                 <table>
-                    <tr><th>name</th><th>polling</th><th>turnout modifier</th><th>votes</th></tr>
-                    {candidates.map(candidate =>
-                        <tr className={candidate.id === winner ? "winner" : "also-ran"}>
-                            <td>{candidate.name}</td>
-                            <td>{candidate.stats.polling}%</td>
-                            <td>1.00</td>
-                            <td>{(candidate.stats.polling * 1014).toLocaleString() }</td>
+                    <thead>
+                        <tr>
+                            <th>Candidate</th>
+                            <th>Final polling</th>
+                            <th>Enthusiasm</th>
+                            <th>Turnout</th>
+                            <th>Total Votes</th>
                         </tr>
-                    )}
+                    </thead>
+                    <tbody>
+                        {candidates.map(candidate =>
+                            <CandidateResult
+                                candidate={candidate}
+                                won={candidate.id === winner}
+                            />
+                        )}
+                    </tbody>
                 </table>
             </div>
         </section>

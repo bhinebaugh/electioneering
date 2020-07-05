@@ -1,20 +1,18 @@
+
+
 #overlay {
-	position: absolute;
-	left: 0;
-	top: 0;
-	height: 100vh;
-	width: 100vw;
 	background-color: #b3b3b370;
+	display: flex;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	top: 0;
 }
 
 #final {
-    position: absolute;
-    height: 50vh;
-    width: 60vw;
-	top: 20vh;
-	left: 20vw;
-	background: #ece2c3;
-	border: double #337373 7px;
+    width: 45em;
+	background: #fff;
+	border: double #6d7eaa 7px;
 	box-shadow: 3rem 0px 3rem 3rem #00000036;
 	box-sizing: border-box;
 	margin: auto;
@@ -23,20 +21,39 @@
 
 #final header {
 	padding: 2rem;
-	background: #991f1f;
+	background: radial-gradient(ellipse at bottom, #e6dfce,#5a7acc);
 	text-align: center;
 }
-#final h1 { 
-	color: #f0eee6;
+#final h1 {
+	color: #fff;
+	font-size: 1.6rem;
+	letter-spacing: .12em;
+	word-spacing: .2em;
 }
-
 #final > div {
+	border-top: solid 2px #6d7eaa;
 	padding: 2rem;
 }
-.winner {
+#final th, #final td {
+	vertical-align: bottom;
+}
+#final th {
+	border-bottom: 1px solid #c4baba;
+	color: #888;
+	font-weight: normal;
+	text-align: left;
+	padding: 0.5em 0.25em 0.25em 0.5em;
+	vertical-align: bottom;
+}
+#final tbody {
+	color: #6c6c6c;
 	font-weight: 600;
-	color: #881414;
 }
-.also-ran {
-	color: #444;
+#final td {
+	padding: 0.5em;
 }
+.winner {
+	background: #fffce1;
+	color: #ab1b1b;
+}
+.also-ran {}
