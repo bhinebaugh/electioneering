@@ -5,8 +5,11 @@ import Card from './Card';
 import './hand.css';
 
 function Hand(props) {
+    var domClasses = ["hand"]
+    if (props.isDraggingOver) { domClasses.push("targeted") }
+    if (props.waitingTurn) { domClasses.push("waiting") }
     return(
-        <div className={ props.isDraggingOver ? "hand targeted" : "hand"}
+        <div className={domClasses.join(" ")}
             ref={props.provided.innerRef}
             {...props.provided.droppableProps}
         >
@@ -30,6 +33,9 @@ function Hand(props) {
                 </Draggable>
             ))}
             {props.children}
+            <div className="notice">
+                <p>awaiting turn</p>
+            </div>
         </div>
     )
 }

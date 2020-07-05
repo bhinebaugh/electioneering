@@ -8,3 +8,32 @@
     margin: 10px 10px;
     padding: 16px;
 }
+.hand.waiting {
+    position: relative;
+}
+
+.hand .notice {
+    display: none;
+    position: absolute;
+}
+
+.hand .notice p {
+    background: #ddd;
+    padding: 1em;
+	opacity: 0.8;
+	box-shadow: 0 5px 8px #000c;
+	width: 26em;
+	text-align: center;
+}
+.hand.waiting .notice {
+    display: block;
+    width: 100%;
+    margin: 0;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: #aaa8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

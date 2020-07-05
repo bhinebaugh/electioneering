@@ -8,6 +8,37 @@ import { cardSet } from './card-definitions';
 import { DragDropContext } from 'react-beautiful-dnd';
 import './App.css';
 
+// Candidate
+
+// id
+// name
+
+// consequences / perception / public:
+//   recognition   0 - 100   % of all voters
+//   favorability  + / -     ratio of all voters
+//   enthusiasm    ???   "hold nose" --- "cult"
+// ==> turnout
+
+// factors pushing public sentiment:
+// [usually have a cost or at least requirements]
+//   media coverage
+//   events / appearances
+//   endorsements
+
+// ???
+// polling data / surveys
+// connections
+
+// enablers / enhancers / means
+//   advisors and staff
+//   contractors (e.g. ads)
+//   surrogates
+//   volunteers
+//   party support
+//   funding
+
+
+
 class App extends React.Component {
 
   constructor(props) {
@@ -167,9 +198,9 @@ class App extends React.Component {
   render = (props) => (
     <div className="App">
       <DragDropContext onDragEnd={this.onDragEnd} >
-        <Side candidate={this.state.candidates[0]} order={this.state.order[0]} handId={"1"} currentPlayer={this.state.turn === this.state.candidates[0]}/>
+        <Side candidate={this.state.candidates[0]} order={this.state.order[0]} handId={"1"} inactive={this.state.turn !== this.state.candidates[0]}/>
         <Polls round={this.state.round} candidates={this.state.candidates} />
-        <Side candidate={this.state.candidates[1]} order={this.state.order[1]} handId={"2"} currentPlayer={this.state.turn === this.state.candidates[1]}/>
+        <Side candidate={this.state.candidates[1]} order={this.state.order[1]} handId={"2"} inactive={this.state.turn !== this.state.candidates[1]}/>
       </DragDropContext>
       {!this.state.round && <FinalResult candidates={this.state.candidates} winner={this.state.winner} />}
     </div>

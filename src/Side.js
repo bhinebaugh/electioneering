@@ -11,7 +11,7 @@ class Side extends React.Component {
     }
 
     render() {
-        let { candidate, order, currentPlayer } = this.props;
+        let { candidate, order, inactive } = this.props;
         return (
             <div className="side">
                 <Droppable droppableId={"c"+candidate.id} direction="horizontal">
@@ -20,7 +20,7 @@ class Side extends React.Component {
                             name={candidate.name}
                             stats={candidate.stats}
                             resources={candidate.resources}
-                            active={currentPlayer}
+                            active={!inactive}
                             characteristics={candidate.characteristics}
                             provided={provided}
                             isDraggingOver={snapshot.isDraggingOver}
@@ -38,7 +38,7 @@ class Side extends React.Component {
                             handId={candidate.id}
                             provided={provided}
                             isDraggingOver={snapshot.isDraggingOver}
-                            waitingTurn={!currentPlayer}
+                            waitingTurn={inactive}
                         >
                             {provided.placeholder}
                         </Hand>
