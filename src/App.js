@@ -203,6 +203,7 @@ class App extends React.Component {
         <Side candidate={this.state.candidates[1]} order={this.state.order[1]} handId={"2"} inactive={this.state.turn !== this.state.candidates[1]}/>
       </DragDropContext>
       {!this.state.round && <FinalResult candidates={this.state.candidates} winner={this.state.winner} />}
+      <FinalResult active={!this.state.round} candidates={this.state.candidates} winner={this.state.winner} />
     </div>
   );
 }

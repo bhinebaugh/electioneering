@@ -23,9 +23,10 @@ const CandidateResult  = ({ candidate, won }) => {
     )
 }
 
-const FinalResult = ({ candidates, winner }) => {
-    return(
-        <div id="overlay">
+const FinalResult = ({ active, candidates, winner }) => {
+
+    var resultsHtml =
+    (
         <section id="final">
             <header>
                 <h1>Election Day Results</h1>
@@ -51,10 +52,16 @@ const FinalResult = ({ candidates, winner }) => {
                         )}
                     </tbody>
                 </table>
+                <form method="dialog">
+                    <button value="reset">fine</button>
+                </form>
             </div>
         </section>
-        </div>
-    )
+    );
+
+
+    return active ? <dialog id="overlay">{resultsHtml}</dialog> : null;
+
 }
 
 export default FinalResult
