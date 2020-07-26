@@ -8,6 +8,18 @@ import './side.css'
 class Side extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            activated: false,
+            exceeded: []
+        }
+    }
+
+    highlightRequirements = (reqs) => {
+        var invalids = [];
+        if (reqs) {
+            invalids = Object.keys(reqs).filter(r => reqs[r] > this.props.candidate.resources[r])
+        }
+        this.setState({ exceeded: invalids })
     }
 
     render() {
@@ -20,6 +32,7 @@ class Side extends React.Component {
                             name={candidate.name}
                             stats={candidate.stats}
                             resources={candidate.resources}
+                            exceeded={this.state.exceeded}
                             active={!inactive}
                             characteristics={candidate.characteristics}
                             provided={provided}
@@ -39,6 +52,7 @@ class Side extends React.Component {
                             provided={provided}
                             isDraggingOver={snapshot.isDraggingOver}
                             waitingTurn={inactive}
+                            highlightRequirements={this.highlightRequirements}
                         >
                             {provided.placeholder}
                         </Hand>

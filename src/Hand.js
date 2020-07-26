@@ -28,6 +28,7 @@ function Hand(props) {
                             requirements={card.requirements}
                             effects={card.effects}
                             attributes={card.attributes}
+                            onHover={props.highlightRequirements}
                         />
                     )}
                 </Draggable>

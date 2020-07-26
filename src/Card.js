@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import AttributeList from './AttributeList';
 import './card.css'
 
-const Card = ({ name, description, requirements, effects, attributes, provided, ...rest }) => {
+const Card = ({ name, description, requirements, effects, attributes, provided, onHover, ...rest }) => {
     var reqHtml = <div className="requirements"></div>;
     if (requirements) {
         const { funding, staff, volunteers } = requirements;
@@ -18,6 +18,8 @@ const Card = ({ name, description, requirements, effects, attributes, provided, 
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             ref={provided.innerRef}
+            onPointerEnter={() => onHover(requirements)}
+            onPointerLeave={() => onHover(null)}
         >
             <header>
                 <h1>{name}</h1>

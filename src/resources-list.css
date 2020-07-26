@@ -17,6 +17,9 @@ li.resource-item {
 	margin: .1em;
 	border-radius: .5em;
 }
+li.resource-item.warn       
+/* { animation: name duration timing-function delay iteration-count direction fill-mode; } */
+{ animation: throb 0.8s ease-in-out .4s infinite alternate none; }
 li.resource-item.funding    { background: var(--color-funding) }
 li.resource-item.staff      { background: var(--color-staff) }
 li.resource-item.volunteers { background: var(--color-volunteers) }
@@ -28,4 +31,11 @@ li.resource-item.volunteers { background: var(--color-volunteers) }
     font-size: 2rem;
 	font-weight: bold;
 	margin: 0;
+}
+
+@keyframes throb {
+	to {
+		background: #f448;
+		border-color: var(--color-warn);
+	}
 }

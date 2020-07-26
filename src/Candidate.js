@@ -15,7 +15,7 @@ function Candidate(props) {
             {...props.provided.droppableProps}
         >
             <h2>{props.name}</h2>
-            <ResourcesList resources={props.resources} />
+            <ResourcesList resources={props.resources} exceeded={props.exceeded} />
             <table>
                 <thead><tr><th colSpan="2">statistics</th></tr></thead>
                 <tbody>
