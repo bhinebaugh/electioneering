@@ -1,11 +1,13 @@
 import React from 'react';
 import Deckbuilder from 'deckbuilder';
+import { DragDropContext } from 'react-beautiful-dnd';
+
 import Side from './Side';
 import Polls from './Polls';
 import FinalResult from './FinalResult';
-import { surnames, firstNames } from './settings';
+
+import settings, { surnames, firstNames } from './settings';
 import { cardSet } from './card-definitions';
-import { DragDropContext } from 'react-beautiful-dnd';
 import './App.css';
 
 // Candidate
@@ -16,7 +18,7 @@ import './App.css';
 // consequences / perception / public:
 //   recognition   0 - 100   % of all voters
 //   favorability  + / -     ratio of all voters
-//   enthusiasm    ???   "hold nose" --- "cult"
+//   enthusiasm    ???   "hold nose" <----> "cult"
 // ==> turnout
 
 // factors pushing public sentiment:
@@ -45,21 +47,25 @@ class App extends React.Component {
     super(props);
     this.deck = new Deckbuilder();
     this.prepareCards(this.deck);
+
     this.state = {
-      candidates: [
+      candidates: this.generateCandidates(),
+        // polling is a derived value
+        // internal demographic stats that determine poll numbers:
+        // - recognition / awareness
+        // - likeability / favorability
+        // - alignment / favorability
+        // - winnable / capable / realistic
         // media subtypes: earned, paid, owned, relational/social
-        {id: "0", name: this.generateName(), resources: { funding: 5, staff: 1, volunteers: 0 }, stats: { polling: 35, enthusiasm: 0, media: 0, endorsements: 0, events: 0 }, characteristics: {}, },
-        {id: "1", name: this.generateName(), resources: { funding: 5, staff: 1, volunteers: 0 }, stats: { polling: 35, enthusiasm: 0, media: 0, endorsements: 0, events: 0 }, characteristics: {}, },
-      ],
       order: [],
-      round: 4, // counts down to 0, representing weeks until election day
+      round: settings.ROUNDS_PER_GAME, // counts down to 0, representing weeks until election day
       turn: null,
       winner: null,
     }
     this.ROUND_LENGTH = this.state.candidates.length - 1; // allow for a potentially variable number of players
     // characteristics: [ [SERIOUS, 2], [SHADY, 1] ]
     // characteristics: { SERIOUS: 2, SHADY: 1 }
-    const hands = this.deck.deal(2,4);
+    const hands = this.deck.deal(2,settings.INITIAL_CARDS);
     this.state.candidates[0].hand = hands["1"];
     this.state.candidates[1].hand = hands["2"];
     this.state.order[0] = this.state.candidates[0].hand.map(c => c.id);
@@ -67,17 +73,41 @@ class App extends React.Component {
     this.state.turn = this.state.candidates[0]
   }
 
+  generateCandidates() {
+    const result = [];
+    for (let i = 0; i < settings.NUMBER_OF_CANDIDATES; i++) {
+      result.push({
+          id: i.toString(),
+          name: this.generateName(),
+          resources: {
+            funding: settings.INITIAL_FUNDS,
+            staff: settings.INITIAL_STAFF,
+            volunteers: settings.INITIAL_VOLUNTEERS
+          },
+          stats: {
+            polling: settings.INITIAL_POLLING,
+            enthusiasm: 0,
+            media: 0,
+            endorsements: 0,
+            events: 0
+          }, 
+          characteristics: {}, 
+      });
+    }
+    return result;
+  }
+
   generateName() {
     return [firstNames, surnames].map(list => {
       let id = Math.floor(Math.random()*list.length);
       return list[id]
-    }).join(" ")
+    }).join(" ");
   }
   
   prepareCards(deck) {
     cardSet.forEach((card, index) => {
-      let derived = Object.assign({}, card, {id: index.toString()})
-      deck.add(derived)
+      let derived = Object.assign({}, card, {id: index.toString()});
+      deck.add(derived);
     })
     deck.shuffle();
   }

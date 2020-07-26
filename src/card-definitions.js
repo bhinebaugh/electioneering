@@ -56,6 +56,14 @@ function Card(
 }
 
 const cardDefinitions = [
+    /** Backstory and incidentals **
+     * (avoid these types of card?)
+     * (apply as starting candidate characteristics?)
+     * wealthy candidate
+     * checkered past
+     * political family
+     * hometown hero
+     */
     {
         frequency: 9,
         card: new Card(
