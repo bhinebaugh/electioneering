@@ -1,118 +1,46 @@
 import React from 'react';
-import Deckbuilder from 'deckbuilder';
-import { DragDropContext } from 'react-beautiful-dnd';
 
-import Side from './Side';
+import PlayerView from './PlayerView';
 import Polls from './Polls';
 import FinalResult from './FinalResult';
+import game from './gameplay';
 
-import settings, { surnames, firstNames } from './settings';
-import { cardSet } from './card-definitions';
 import './App.css';
 
-// Candidate
-
-// id
-// name
-
-// consequences / perception / public:
-//   recognition   0 - 100   % of all voters
-//   favorability  + / -     ratio of all voters
-//   enthusiasm    ???   "hold nose" <----> "cult"
-// ==> turnout
-
-// factors pushing public sentiment:
-// [usually have a cost or at least requirements]
-//   media coverage
-//   events / appearances
-//   endorsements
-
-// ???
-// polling data / surveys
-// connections
-
-// enablers / enhancers / means
-//   advisors and staff
-//   contractors (e.g. ads)
-//   surrogates
-//   volunteers
-//   party support
-//   funding
-
-
-
+// this should eventually be UI for a single player
+// with actions and information relevant to one candidate
+// and summary view for the rest of state;
+// a client that reports actions to a central game server
 class App extends React.Component {
 
   constructor(props) {
     super(props);
-    this.deck = new Deckbuilder();
-    this.prepareCards(this.deck);
-
+    // keep any state locally?
+    // probably card order
     this.state = {
-      candidates: this.generateCandidates(),
-        // polling is a derived value
-        // internal demographic stats that determine poll numbers:
-        // - recognition / awareness
-        // - likeability / favorability
-        // - alignment / favorability
-        // - winnable / capable / realistic
-        // media subtypes: earned, paid, owned, relational/social
       order: [],
-      round: settings.ROUNDS_PER_GAME, // counts down to 0, representing weeks until election day
-      turn: null,
-      winner: null,
+      ready: false,
+      activeId: null,
     }
-    this.ROUND_LENGTH = this.state.candidates.length - 1; // allow for a potentially variable number of players
-    // characteristics: [ [SERIOUS, 2], [SHADY, 1] ]
-    // characteristics: { SERIOUS: 2, SHADY: 1 }
-    const hands = this.deck.deal(2,settings.INITIAL_CARDS);
-    this.state.candidates[0].hand = hands["1"];
-    this.state.candidates[1].hand = hands["2"];
-    this.state.order[0] = this.state.candidates[0].hand.map(c => c.id);
-    this.state.order[1] = this.state.candidates[1].hand.map(c => c.id);
-    this.state.turn = this.state.candidates[0]
   }
 
-  generateCandidates() {
-    const result = [];
-    for (let i = 0; i < settings.NUMBER_OF_CANDIDATES; i++) {
-      result.push({
-          id: i.toString(),
-          name: this.generateName(),
-          resources: {
-            funding: settings.INITIAL_FUNDS,
-            staff: settings.INITIAL_STAFF,
-            volunteers: settings.INITIAL_VOLUNTEERS
-          },
-          stats: {
-            polling: settings.INITIAL_POLLING,
-            enthusiasm: 0,
-            media: 0,
-            endorsements: 0,
-            events: 0
-          }, 
-          characteristics: {}, 
-      });
-    }
-    return result;
-  }
-
-  generateName() {
-    return [firstNames, surnames].map(list => {
-      let id = Math.floor(Math.random()*list.length);
-      return list[id]
-    }).join(" ");
+  componentDidMount() {
+    // connect to game loop
+    // so it can initialize vars
+    // and provide them as game.state
+    // (eventually provide via props)
+    if (game.kickoff()) {
+      console.log("game state initiated")
+      this.setState({
+        ready: true,
+        activeId: game.state.turn,
+      })
+    } else {
+      console.log("there was an error")
+    };
   }
   
-  prepareCards(deck) {
-    cardSet.forEach((card, index) => {
-      let derived = Object.assign({}, card, {id: index.toString()});
-      deck.add(derived);
-    })
-    deck.shuffle();
-  }
-  
-  updateCardOrder = (id, sourceIndex, destinationIndex=-1) => {
+  updateCardOrder(id, sourceIndex, destinationIndex=-1) {
     let target = Number.parseInt(id);
     let newOrder = Array.from(this.state.order);
     let [removedCard] = newOrder[target].splice(sourceIndex, 1); // or filter?
@@ -120,65 +48,6 @@ class App extends React.Component {
     this.setState({
       order: newOrder
     });
-  }
-
-  validatePlay = (player, target, card) => {
-    // is target allowed for this card?
-    // player === target ?
-    if (!card.requirements) {
-      return true
-    }
-    for (const req in card.requirements) {
-      if (card.requirements[req] > player.resources[req]) {
-        console.log("didn't meet reqt for", req)
-        return false
-      }
-    }
-    return true
-  }
-
-  applyCardEffects = (candidate, card) => {
-    const { effects, attributes } = card;
-    // TODO: allow cards to change resource amounts
-    const resourceNames = Object.keys(candidate.resources)
-    for(const effect in effects) {
-      if (resourceNames.includes(effect)) {
-        candidate.resources[effect] += effects[effect]
-      } else if (candidate.stats && typeof candidate.stats[effect] !== "undefined") {
-        candidate.stats[effect] += effects[effect]
-      }
-    }
-    attributes.forEach(attr => {
-      if (candidate.characteristics.hasOwnProperty(attr)) {
-        // catch NaN
-        candidate.characteristics[attr]++
-      } else {
-        candidate.characteristics[attr] = 1
-      }
-    })
-    this.deck.discard(card.name);
-  }
-
-  nextTurn() {
-    var pointer = this.state.candidates.indexOf(this.state.turn)
-    if (pointer === this.ROUND_LENGTH) {
-      // next round, reset to first candidate
-      // or end game
-      let nextRound = this.state.round - 1
-      if (nextRound <= 0) { this.endGame() }
-      this.setState({
-        round: nextRound,
-        turn: this.state.candidates[0],
-      })
-    } else {
-      this.setState({turn: this.state.candidates[pointer+1]})
-    }
-  }
-
-  endGame() {
-    console.log("end of the game")
-    var highestPolling = this.state.candidates.reduce( (a,b) => a.polling > b.polling ? a : b)
-    this.setState({ winner: highestPolling.id })
   }
 
   onDragEnd = result => {
@@ -189,53 +58,70 @@ class App extends React.Component {
     }
 
     if (source.droppableId === destination.droppableId) {
-        // rearranging card order within current hand
+        // Rearrange card order within current hand
         if (source.index === destination.index) return;
         this.updateCardOrder(destination.droppableId, source.index, destination.index)
     } else {
-        // card was played to another area
-        let candids = this.state.candidates
-        let candid = candids[Number.parseInt(source.droppableId)]
-        let theCard = candid.hand.find(c => c.id === draggableId)
-        const targetId = Number.parseInt(destination.droppableId.substring(1));
-        let target = this.state.candidates[targetId];
-        if (this.validatePlay(candid, target, theCard)) {
-          this.updateCardOrder(source.droppableId, source.index)
-          candid.hand.splice(candid.hand.indexOf(theCard),1)
-          this.applyCardEffects(target, theCard)
-
-          // deal replacement card
-          const drawNew = this.deck.deal(1,1) // this.deck.draw(1)
-          const newCard = drawNew["1"][0]
-          candid.hand.push(newCard)
-
-          var newOrder = [...this.state.order]
-          newOrder[source.droppableId].push(newCard.id)
-          // updateCardOrder: allow adding a card
-          this.setState({ 
-            order: newOrder,
-            candidates: candids
-          })
-          this.nextTurn()
-        } else {
-          // invalid move; return to hand
-          return false
-        }
+        // Apply card to other target
+        game.playCard( draggableId, destination, source )
     }
   }
 
 
+  // render = ({ round, candidates, gameOver, winner }) => (
   render = (props) => (
-    <div className="App">
-      <DragDropContext onDragEnd={this.onDragEnd} >
-        <Side candidate={this.state.candidates[0]} order={this.state.order[0]} handId={"1"} inactive={this.state.turn !== this.state.candidates[0]}/>
-        <Polls round={this.state.round} candidates={this.state.candidates} />
-        <Side candidate={this.state.candidates[1]} order={this.state.order[1]} handId={"2"} inactive={this.state.turn !== this.state.candidates[1]}/>
-      </DragDropContext>
-      {!this.state.round && <FinalResult candidates={this.state.candidates} winner={this.state.winner} />}
-      <FinalResult active={!this.state.round} candidates={this.state.candidates} winner={this.state.winner} />
+    <div className="Game">
+      {/* {candidates.map(c => <Player />)} */}
+      { this.state.ready ?
+        <PlayerView
+          mode="full"
+          active={this.state.activeId == game.state.candidates[0].id}
+          candidate={game.state.candidates[0]}
+          handleDragEnd={this.onDragEnd}
+        />
+        :
+        <p>not ready</p>
+      }
     </div>
   );
 }
 
 export default App;
+      // <FinalResult
+      //   active={gameOver}
+      //   candidates={candidates}
+      //   winner={winner}
+      // />
+
+/* 
+<Dashboard>
+  <Polling></Polling>
+  <State />
+  <Log />
+</Dashboard>
+
+<Player view="primary">
+  <Candidate />
+  <Cards />
+</Player>
+
+<Player view="summary" />
+
+
+      <DragDropContext onDragEnd={this.onDragEnd}>
+
+        {
+          this.state.ready ? 
+            <>
+            <Side candidate={game.state.candidates[0]} order={null} handId={"1"} inactive={game.state.turn !== game.candidates[0]}/>
+    
+            <Polls round={game.state.round} candidates={game.state.candidates} />
+    
+            <Side candidate={game.state.candidates[1]} order={null} handId={"2"} inactive={game.state.turn !== game.state.candidates[1]}/>
+            </>
+          : <p>waiting for set up to complete</p>
+        }
+
+      </DragDropContext>
+
+*/
