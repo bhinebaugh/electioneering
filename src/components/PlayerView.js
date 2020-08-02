@@ -56,13 +56,14 @@ class PlayerView extends React.Component {
                                 handId={candidate.id}
                                 provided={provided}
                                 isDraggingOver={snapshot.isDraggingOver}
-                                waitingTurn={active}
+                                waitingTurn={!active}
                                 highlightRequirements={this.highlightRequirements}
                             >
                                 {provided.placeholder}
                             </Hand>
                         )}
                     </Droppable>
+                    {/* <Opponent desc="short version of <Candidate> that's also a drop target"> */}
                 </div>
             </DragDropContext>
         )

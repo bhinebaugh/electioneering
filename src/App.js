@@ -31,7 +31,7 @@ class App extends React.Component {
       console.log("game state initiated")
       this.setState({
         ready: true,
-        activeId: game.state.turn,
+        activeId: game.state.turnOrder[game.state.turnNumber],
       })
     } else {
       console.log("there was an error")
@@ -62,6 +62,12 @@ class App extends React.Component {
     } else {
         // Apply card to other target
         game.playCard( draggableId, destination, source )
+        console.log("game.state after playing card", game.state)
+        // then
+        this.setState({
+          activeId: game.state.turnOrder[game.state.turnNumber],
+        })
+
     }
   }
 
@@ -69,16 +75,18 @@ class App extends React.Component {
   // render = ({ round, candidates, gameOver, winner }) => (
   render = (props) => (
     <div className="Game">
-      {/* {candidates.map(c => <Player />)} */}
-      { this.state.ready ?
-        <PlayerView
-          mode="full"
-          active={this.state.activeId == game.state.candidates[0].id}
-          candidate={game.state.candidates[0]}
-          handleDragEnd={this.onDragEnd}
-        />
-        :
-        <p>not ready</p>
+      { this.state.ready
+        ? game.state.turnOrder.map(cId =>
+          <>
+          <PlayerView
+            mode="full"
+            active={this.state.activeId === cId }
+            candidate={game.state.candidatesById[cId]}
+            handleDragEnd={this.onDragEnd}
+          />
+          </>
+        )
+        : <p>not ready</p>
       }
     </div>
   );

@@ -44,47 +44,64 @@ const settings = {
 //   party support
 //   funding
 
-const game = {
-  state: {
-      candidates: [],
-        // polling is a derived value
-        // internal demographic stats that determine poll numbers:
-        // - recognition / awareness
-        // - likeability / favorability
-        // - alignment / favorability
-        // - winnable / capable / realistic
-        // media subtypes: earned, paid, owned, relational/social
-      round: settings.ROUNDS_PER_GAME, // counts down to 0, representing weeks until election day
-      turn: null,
-      winner: null,
-  },
+const Game = function () {
+  this.state = {
+    // candidates: [],
+    candidatesById: {},
+      // candidates: {
+      //   sequence: ["x","y"],
+      //   currentNumber: 0, // "x"
+      //   currentId: "x",
+      //   byId: {
+      //     "x": { ... },
+      //     "y": { ... }
+      //   }
+      // }
+    turnOrder: [], // by id of candidate
+    // turn: null // deprecated
+    turnNumber: 0, // pointer to element of turnOrder
+      // polling is a derived value
+      // internal demographic stats that determine poll numbers:
+      // - recognition / awareness
+      // - likeability / favorability
+      // - alignment / favorability
+      // - winnable / capable / realistic
+      // media subtypes: earned, paid, owned, relational/social
+    round: settings.ROUNDS_PER_GAME, // counts down to 0, representing weeks until election day
+    // game status: not ready (setting up, waiting for players) -> in progress -> concluded || error
+    winner: null
+  };
+  this.settings = {};
+  this.deck = null;
+};
 
-  settings: {},
-  deck: null,
-
+Game.prototype = {
   kickoff: function() {
     try {
       this.settings = settings;
       // this.state.round = settings.ROUNDS_
-      this.state.candidates = this.generateCandidates();
       this.deck = new Deckbuilder();
       this.prepareCards(this.deck);
-
-      this.ROUND_LENGTH = this.state.candidates.length - 1; // allow for a potentially variable number of players
+      
+      // allow for a potentially variable number of players--
+      // but use turnOrder.length instead
       // characteristics: [ [SERIOUS, 2], [SHADY, 1] ]
       // characteristics: { SERIOUS: 2, SHADY: 1 }
-      const hands = this.deck.deal(2,this.settings.INITIAL_CARDS);
-      this.state.candidates[0].hand = hands["1"];
-      this.state.candidates[1].hand = hands["2"];
-      this.state.turn = this.state.candidates[0];
+      this.state.candidatesById = this.generateCandidates();
+      this.state.turnOrder = Object.keys(this.state.candidatesById);
+      const hands = this.deck.deal(this.settings.NUMBER_OF_CANDIDATES,this.settings.INITIAL_CARDS);
+      for (let i=0; i < this.settings.NUMBER_OF_CANDIDATES; i++) {
+        this.state.candidatesById[i].hand = hands[(i+1).toString()];
+      }
       return true;
-    } catch {
+    } catch (err) {
+      console.error(err);
       return false;
     }
   },
 
   generateCandidates: function() {
-    const result = [];
+    const result = {};
     for (let i = 0; i < this.settings.NUMBER_OF_CANDIDATES; i++) {
       var generated = {
           id: i.toString(),
@@ -103,7 +120,7 @@ const game = {
           }, 
           characteristics: {}, 
       };
-      result.push(generated);
+      result[generated.id] = generated;
     }
     return result;
   },
@@ -139,11 +156,12 @@ const game = {
   },
 
   playCard: function( draggableId, destination, source ) {
-    let candids = this.state.candidates
+    // CLEAN UP
+    let candids = this.state.candidatesById
     let candid = candids[Number.parseInt(source.droppableId)]
     let theCard = candid.hand.find(c => c.id === draggableId)
     const targetId = Number.parseInt(destination.droppableId.substring(1));
-    let target = this.state.candidates[targetId];
+    let target = this.state.candidatesById[targetId];
     if (this.validatePlay(candid, target, theCard)) {
       candid.hand.splice(candid.hand.indexOf(theCard),1)
       this.applyCardEffects(target, theCard)
@@ -154,7 +172,7 @@ const game = {
       candid.hand.push(newCard)
 
       // updateCardOrder: allow adding a card
-      this.state.candidates = candids
+      this.state.candidatesById = candids
       this.nextTurn()
     } else {
       // invalid move; return to hand
@@ -164,7 +182,6 @@ const game = {
 
   applyCardEffects: function(candidate, card) {
     const { effects, attributes } = card;
-    // TODO: allow cards to change resource amounts
     const resourceNames = Object.keys(candidate.resources)
     for(const effect in effects) {
       if (resourceNames.includes(effect)) {
@@ -185,16 +202,15 @@ const game = {
   },
 
   nextTurn: function() {
-    var pointer = this.state.candidates.indexOf(this.state.turn)
-    if (pointer === this.ROUND_LENGTH) {
+    // if (this.state.turn === this.ROUND_LENGTH) {
+    this.state.turnNumber++
+    if (this.state.turnNumber >= this.state.turnOrder.length) {
       // next round, reset to first candidate
       // or end game
-      let nextRound = this.state.round - 1
-      if (nextRound <= 0) { this.endGame() }
-      this.state.round = nextRound
-      this.state.turn = this.state.candidates[0].id
-    } else {
-      this.state.turn = this.state.candidates[pointer+1]
+      if (this.state.round <= 1) { this.endGame() }
+      this.state.round = this.state.round - 1
+      this.state.turnNumber = 0
+
     }
   },
 
@@ -205,4 +221,4 @@ const game = {
   }
 }
 
-export default game;
+export default new Game();
