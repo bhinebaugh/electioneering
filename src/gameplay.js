@@ -69,7 +69,7 @@ const Game = function () {
       // media subtypes: earned, paid, owned, relational/social
     round: settings.ROUNDS_PER_GAME, // counts down to 0, representing weeks until election day
     // game status: not ready (setting up, waiting for players) -> in progress -> concluded || error
-    winner: null
+    winner: null // double-duty indicator of if game has concluded
   };
   this.settings = {};
   this.deck = null;
@@ -174,6 +174,7 @@ Game.prototype = {
       // updateCardOrder: allow adding a card
       this.state.candidatesById = candids
       this.nextTurn()
+      return true
     } else {
       // invalid move; return to hand
       return false
@@ -215,9 +216,15 @@ Game.prototype = {
   },
 
   endGame: function() {
-    console.log("end of the game")
-    var highestPolling = this.state.candidates.reduce( (a,b) => a.polling > b.polling ? a : b)
-    this.state.winner = highestPolling.id
+    var highestPolling = this.state.turnOrder.reduce(
+      (a,b) => 
+      this.state.candidatesById[a].polling > this.state.candidatesById[b].polling 
+      ? a 
+      : b
+    )
+    this.state.winner = 0
+    // this.state.winner = highestPolling.id
+    console.log("end of the game", this.state.winner)
   }
 }
 

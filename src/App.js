@@ -9,15 +9,19 @@ import './App.css';
 // with actions and information relevant to one candidate
 // and summary view for the rest of state;
 // a client that reports actions to a central game server
+// and receives state updates to pass to presentational components
 class App extends React.Component {
 
   constructor(props) {
     super(props);
-    // keep any state locally?
-    // probably card order
+    // constants
+    this.NOT_READY = "NOT_READY";
+    this.IN_PROGRESS = "IN_PROGRESS";
+    this.ENDED = "ENDED";
     this.state = {
-      order: [],
+      order: [], // TODO: card order
       ready: false,
+      status: null, // constants
       activeId: null,
     }
   }
@@ -31,6 +35,7 @@ class App extends React.Component {
       console.log("game state initiated")
       this.setState({
         ready: true,
+        status: this.IN_PROGRESS,
         activeId: game.state.turnOrder[game.state.turnNumber],
       })
     } else {
@@ -61,43 +66,62 @@ class App extends React.Component {
         this.updateCardOrder(destination.droppableId, source.index, destination.index)
     } else {
         // Apply card to other target
-        game.playCard( draggableId, destination, source )
+        const validMove = game.playCard( draggableId, destination, source )
         console.log("game.state after playing card", game.state)
         // then
-        this.setState({
-          activeId: game.state.turnOrder[game.state.turnNumber],
-        })
+        if (validMove) {
+          this.setState({
+            activeId: game.state.turnOrder[game.state.turnNumber],
+            status: game.state.winner === null ? this.IN_PROGRESS : this.ENDED
+
+          })
+        } else {
+          // cheating! ... or a bug
+          this.setState({
+            status: this.NOT_READY
+          })
+        }
+
 
     }
   }
 
 
+
   // render = ({ round, candidates, gameOver, winner }) => (
-  render = (props) => (
-    <div className="Game">
-      { this.state.ready
-        ? game.state.turnOrder.map(cId =>
-          <>
-          <PlayerView
-            mode="full"
-            active={this.state.activeId === cId }
-            candidate={game.state.candidatesById[cId]}
-            handleDragEnd={this.onDragEnd}
+  render = (props) => {
+
+    var content = null;
+
+    switch(this.state.status) {
+      case this.IN_PROGRESS:
+          content = game.state.turnOrder.map(cId =>
+            <PlayerView
+              mode="full"
+              active={this.state.activeId === cId }
+              candidate={game.state.candidatesById[cId]}
+              handleDragEnd={this.onDragEnd}
+            />
+          );
+          break;
+      case this.ENDED:
+        content = (
+          <FinalResult
+            candidates={Object.values(game.state.candidatesById)}
+            winner={null}
           />
-          </>
-        )
-        : <p>not ready</p>
-      }
-    </div>
-  );
+        );
+        break;
+      case this.NOT_READY:
+      default:
+        content = <p>Not ready or error or something like that. Stupid beta software.</p>
+    }
+
+    return <div className="Game">{content}</div>
+  }
 }
 
 export default App;
-      // <FinalResult
-      //   active={gameOver}
-      //   candidates={candidates}
-      //   winner={winner}
-      // />
 
 /* 
 <Dashboard>
@@ -105,29 +129,4 @@ export default App;
   <State />
   <Log />
 </Dashboard>
-
-<Player view="primary">
-  <Candidate />
-  <Cards />
-</Player>
-
-<Player view="summary" />
-
-
-      <DragDropContext onDragEnd={this.onDragEnd}>
-
-        {
-          this.state.ready ? 
-            <>
-            <Side candidate={game.state.candidates[0]} order={null} handId={"1"} inactive={game.state.turn !== game.candidates[0]}/>
-    
-            <Polls round={game.state.round} candidates={game.state.candidates} />
-    
-            <Side candidate={game.state.candidates[1]} order={null} handId={"2"} inactive={game.state.turn !== game.state.candidates[1]}/>
-            </>
-          : <p>waiting for set up to complete</p>
-        }
-
-      </DragDropContext>
-
 */

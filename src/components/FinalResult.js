@@ -1,6 +1,6 @@
 import React from 'react'
+
 import './final.css'
-import { render } from 'react-dom'
 
 const VOTE_EQUIVALENT = 1000
 
@@ -23,10 +23,8 @@ const CandidateResult  = ({ candidate, won }) => {
     )
 }
 
-const FinalResult = ({ active, candidates, winner }) => {
-
-    var resultsHtml =
-    (
+const FinalResult = ({ candidates, winner }) => (
+    <dialog id="overlay">
         <section id="final">
             <header>
                 <h1>Election Day Results</h1>
@@ -57,11 +55,7 @@ const FinalResult = ({ active, candidates, winner }) => {
                 </form>
             </div>
         </section>
-    );
-
-
-    return active ? <dialog id="overlay">{resultsHtml}</dialog> : null;
-
-}
+    </dialog>
+    )
 
 export default FinalResult
