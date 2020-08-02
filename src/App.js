@@ -1,8 +1,6 @@
 import React from 'react';
 
-import PlayerView from './PlayerView';
-import Polls from './Polls';
-import FinalResult from './FinalResult';
+import { PlayerView, FinalResult, Polls } from './components';
 import game from './gameplay';
 
 import './App.css';
