@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { PlayerView, FinalResult, Polls } from './components';
+import { Dashboard, PlayerView, FinalResult } from './components';
 import game from './gameplay';
 
 import './App.css';
@@ -42,6 +42,12 @@ class App extends React.Component {
       console.log("there was an error")
     };
   }
+
+  componentWillUnmount() {
+    // clean up
+    // remove any event listeners
+    game = null;
+  }
   
   updateCardOrder(id, sourceIndex, destinationIndex=-1) {
     let target = Number.parseInt(id);
@@ -67,7 +73,6 @@ class App extends React.Component {
     } else {
         // Apply card to other target
         const validMove = game.playCard( draggableId, destination, source )
-        console.log("game.state after playing card", game.state)
         // then
         if (validMove) {
           this.setState({
@@ -86,22 +91,24 @@ class App extends React.Component {
     }
   }
 
-
-
-  // render = ({ round, candidates, gameOver, winner }) => (
   render = (props) => {
 
     var content = null;
 
     switch(this.state.status) {
       case this.IN_PROGRESS:
-          content = game.state.turnOrder.map(cId =>
-            <PlayerView
-              mode="full"
-              active={this.state.activeId === cId }
-              candidate={game.state.candidatesById[cId]}
-              handleDragEnd={this.onDragEnd}
-            />
+          content = (
+            <>
+            <Dashboard round={game.state.round} candidates={Object.values(game.state.candidatesById)} />
+            {game.state.turnOrder.map(cId =>
+              <PlayerView
+                mode="full"
+                active={this.state.activeId === cId }
+                candidate={game.state.candidatesById[cId]}
+                handleDragEnd={this.onDragEnd}
+              />
+            )}
+            </>
           );
           break;
       case this.ENDED:
@@ -122,11 +129,3 @@ class App extends React.Component {
 }
 
 export default App;
-
-/* 
-<Dashboard>
-  <Polling></Polling>
-  <State />
-  <Log />
-</Dashboard>
-*/
