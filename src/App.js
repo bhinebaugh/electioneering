@@ -19,7 +19,6 @@ class App extends React.Component {
     this.IN_PROGRESS = "IN_PROGRESS";
     this.ENDED = "ENDED";
     this.state = {
-      order: [], // TODO: card order
       ready: false,
       status: null, // constants
       activeId: null,
@@ -56,54 +55,38 @@ class App extends React.Component {
   componentWillUnmount() {
     // clean up
     // remove any event listeners
-    game = null;
-  }
-  
-  updateCardOrder(id, sourceIndex, destinationIndex=-1) {
-    let target = Number.parseInt(id);
-    let newOrder = Array.from(this.state.order);
-    let [removedCard] = newOrder[target].splice(sourceIndex, 1); // or filter?
-    if (destinationIndex >= 0) newOrder[target].splice(destinationIndex, 0, removedCard);
-    this.setState({
-      order: newOrder
-    });
+    // game = null;
   }
 
-  onDragEnd = result => {
-    const { draggableId, destination, source } = result;
+  // handleCardPlayed = ({ card, target }) => {
+  handleCardPlayed = (draggableId, destination, source) => {
 
-    if (!destination) {
-        return;
-    }
+    // Any card drag within Hand is handled by PlayerView
+    // so here we only deal with drag-onto-self or -opponent
 
-    const extracted = game.state
+    // Placeholder for accepting updated state from server
     this.setState({
-      gameState: extracted
+      gameState: game.state
     })
 
-    if (source.droppableId === destination.droppableId) {
-        // Rearrange card order within current hand
-        if (source.index === destination.index) return;
-        this.updateCardOrder(destination.droppableId, source.index, destination.index)
+    // Apply card to other target
+    const validMove = game.playCard( draggableId, destination, source )
+    // then
+    if (validMove) {
+      this.setState({
+        activeId: game.state.turnOrder[game.state.turnNumber],
+        logs: [...this.state.logs, "Played card " + draggableId],
+        status: game.state.winner === null ? this.IN_PROGRESS : this.ENDED
+      })
     } else {
-        // Apply card to other target
-        const validMove = game.playCard( draggableId, destination, source )
-        // then
-        if (validMove) {
-          this.setState({
-            activeId: game.state.turnOrder[game.state.turnNumber],
-            logs: [...this.state.logs, "Played card " + draggableId],
-            status: game.state.winner === null ? this.IN_PROGRESS : this.ENDED
-          })
-        } else {
-          // cheating! ... or a bug
-          this.setState({
-            status: this.NOT_READY
-          })
-        }
-
-
+      // cheating! ... or a bug
+      this.setState({
+        status: this.NOT_READY
+      })
     }
+
+
+    
   }
 
   render = (props) => {
@@ -125,7 +108,7 @@ class App extends React.Component {
                 mode="full"
                 active={this.state.activeId === cId }
                 candidate={game.state.candidatesById[cId]}
-                handleDragEnd={this.onDragEnd}
+                playCard={this.handleCardPlayed}
               />
             )}
             </>

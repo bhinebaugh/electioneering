@@ -12,7 +12,18 @@ class PlayerView extends React.Component {
         super(props);
         this.state = {
             activated: false,
+            cardsInOrder: this.props.candidate.hand,
             exceeded: []
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        // if cards changed, add new ones to end of local card order
+        if (prevProps.candidate.hand !== this.props.candidate.hand) {
+            const newCards = this.props.candidate.hand.filter(card => !prevProps.includes(card));
+            this.setState({
+                cardsInOrder: [...this.state.cardsInOrder, newCards]
+            })    
         }
     }
 
@@ -24,11 +35,38 @@ class PlayerView extends React.Component {
         this.setState({ exceeded: invalids })
     }
 
+    // remove or reorder cards
+    updateCardOrder(sourceIndex, destinationIndex=-1) {
+        let newOrder = Array.from(this.state.cardsInOrder);
+        let [removedCard] = newOrder.splice(sourceIndex, 1);
+        if (destinationIndex >= 0) newOrder.splice(destinationIndex, 0, removedCard);
+        this.setState({
+          cardsInOrder: newOrder
+        });
+    }
+
+    handleDragEnd = (result) => {
+        const { draggableId, destination, source } = result;
+
+        if (!destination) {
+            return;
+        }
+
+        if (source.droppableId === destination.droppableId) {
+            // Rearrange card order within current hand
+            if (source.index === destination.index) return;
+            this.updateCardOrder(source.index, destination.index)
+        } else {
+            const card = draggableId;
+            const target = destination;
+            this.props.playCard(card, target, source)
+        }
+    }
+
     render() {
-        let { candidate, active, handleDragEnd } = this.props;
-        // DragDropContext onDragEnd={this.props.handleDragEnd}
+        let { candidate, active } = this.props;
         return (
-            <DragDropContext onDragEnd={handleDragEnd}>
+            <DragDropContext onDragEnd={this.handleDragEnd}>
                 <div className="side PlayerView">
                     <Droppable droppableId={"c"+candidate.id} direction="horizontal">
                         {(provided, snapshot) => (
@@ -52,7 +90,7 @@ class PlayerView extends React.Component {
                         {(provided, snapshot) => (
                             <Hand
                                 // cards={order.map(cardId => candidate.hand.find(card => card.id === cardId))}
-                                cards={candidate.hand}
+                                cards={this.state.cardsInOrder}
                                 handId={candidate.id}
                                 provided={provided}
                                 isDraggingOver={snapshot.isDraggingOver}
