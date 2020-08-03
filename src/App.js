@@ -23,7 +23,16 @@ class App extends React.Component {
       ready: false,
       status: null, // constants
       activeId: null,
+      logs: ["Loading..."],
+      gameState: {}
     }
+  }
+
+  log(msg) {
+    const previousLogs = this.state.logs
+    this.setState({
+      logs: [...previousLogs, msg]
+    })
   }
 
   componentDidMount() {
@@ -32,14 +41,15 @@ class App extends React.Component {
     // and provide them as game.state
     // (eventually provide via props)
     if (game.kickoff()) {
-      console.log("game state initiated")
       this.setState({
         ready: true,
         status: this.IN_PROGRESS,
         activeId: game.state.turnOrder[game.state.turnNumber],
+        logs: [...this.state.logs, "Game state initialized"],
+        gameState: game.state
       })
     } else {
-      console.log("there was an error")
+      this.log("there was an error")
     };
   }
 
@@ -66,6 +76,11 @@ class App extends React.Component {
         return;
     }
 
+    const extracted = game.state
+    this.setState({
+      gameState: extracted
+    })
+
     if (source.droppableId === destination.droppableId) {
         // Rearrange card order within current hand
         if (source.index === destination.index) return;
@@ -77,8 +92,8 @@ class App extends React.Component {
         if (validMove) {
           this.setState({
             activeId: game.state.turnOrder[game.state.turnNumber],
+            logs: [...this.state.logs, "Played card " + draggableId],
             status: game.state.winner === null ? this.IN_PROGRESS : this.ENDED
-
           })
         } else {
           // cheating! ... or a bug
@@ -99,7 +114,12 @@ class App extends React.Component {
       case this.IN_PROGRESS:
           content = (
             <>
-            <Dashboard round={game.state.round} candidates={Object.values(game.state.candidatesById)} />
+            <Dashboard
+              round={game.state.round}
+              candidates={Object.values(game.state.candidatesById)}
+              logs={this.state.logs}
+              gameState={this.state.gameState}
+            />
             {game.state.turnOrder.map(cId =>
               <PlayerView
                 mode="full"

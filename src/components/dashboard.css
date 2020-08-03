@@ -1,0 +1,30 @@
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    background:#aeb6c6;
+    border: solid 1px #d0c9db;
+    border-radius: 6px;
+    margin: 10px 10px;
+    padding: 16px;
+}
+
+.dashboard h3 {
+    margin: 0 0 0.5em;
+}
+
+.dashboard .central-section { /* styles based on .hand */
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+}
+
+.dashboard pre {
+    flex: 1 0 auto;
+    overflow-y: scroll;
+	max-height: 5em;
+}
+
+.central-section pre,
+.central-section > div:first-of-type {
+    margin-right: 2rem;
+}

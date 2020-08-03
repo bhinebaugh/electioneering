@@ -1,5 +1,7 @@
 import React from 'react';
-import { Polls } from './index';
+import { Log, Polls } from './index';
+
+import './dashboard.css';
 
 {/* 
     <Polls />
@@ -8,12 +10,19 @@ import { Polls } from './index';
 */}
 
 function Dashboard(props) {
+    const { candidatesById, turnOrder, turnNumber, round, winner } = props.gameState;
     return (
-        <div className="hand">
+        <div className="dashboard">
             <h3>Developer Dashboard</h3>
-            <Polls candidates={props.candidates} />
             <div className="central-section">
-                <p>Round: {props.round} weeks to go</p>
+                <Log messages={props.logs} />
+                <div>
+                    Round: {round} weeks to go<br/>
+                    Turn order: {(turnOrder && turnOrder.join(', ')) || "n/a"}<br/>
+                    Current turn: {turnNumber}<br/>
+                    Winner: {winner || "TBD"}
+                </div>
+                <Polls candidates={props.candidates} />
             </div>
         </div>
     )
