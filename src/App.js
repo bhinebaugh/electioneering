@@ -59,7 +59,7 @@ class App extends React.Component {
   }
 
   // handleCardPlayed = ({ card, target }) => {
-  handleCardPlayed = (draggableId, destination, source) => {
+  handleCardPlayed = (cardId, targetId, sourceId) => {
 
     // Any card drag within Hand is handled by PlayerView
     // so here we only deal with drag-onto-self or -opponent
@@ -70,12 +70,12 @@ class App extends React.Component {
     })
 
     // Apply card to other target
-    const validMove = game.playCard( draggableId, destination, source )
+    const validMove = game.playCard( cardId, targetId, sourceId )
     // then
     if (validMove) {
       this.setState({
         activeId: game.state.turnOrder[game.state.turnNumber],
-        logs: [...this.state.logs, "Played card " + draggableId],
+        logs: [...this.state.logs, "Played card " + cardId],
         status: game.state.winner === null ? this.IN_PROGRESS : this.ENDED
       })
     } else {
@@ -84,9 +84,13 @@ class App extends React.Component {
         status: this.NOT_READY
       })
     }
-
-
     
+  }
+
+  getOtherCandidates(myself) {
+    const someCandidates = { ...this.state.gameState.candidatesById };
+    delete someCandidates[myself];
+    return someCandidates;
   }
 
   render = (props) => {
@@ -109,6 +113,7 @@ class App extends React.Component {
                 active={this.state.activeId === cId }
                 candidate={game.state.candidatesById[cId]}
                 playCard={this.handleCardPlayed}
+                opponents={game.state.turnOrder.filter(i => i !== cId).map(id => game.state.candidatesById[id])}
               />
             )}
             </>

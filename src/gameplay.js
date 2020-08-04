@@ -155,24 +155,21 @@ Game.prototype = {
     return true
   },
 
-  playCard: function( draggableId, destination, source ) {
+  playCard: function( cardId, targetId, playerId ) {
     // CLEAN UP
-    let candids = this.state.candidatesById
-    let candid = candids[Number.parseInt(source.droppableId)]
-    let theCard = candid.hand.find(c => c.id === draggableId)
-    const targetId = Number.parseInt(destination.droppableId.substring(1));
-    let target = this.state.candidatesById[targetId];
-    if (this.validatePlay(candid, target, theCard)) {
-      candid.hand.splice(candid.hand.indexOf(theCard),1)
-      this.applyCardEffects(target, theCard)
+    let player = this.state.candidatesById[Number.parseInt(playerId)]
+    let playedCard = player.hand.find(c => c.id === cardId)
+    let target = this.state.candidatesById[Number.parseInt(targetId)];
+    if (this.validatePlay(player, target, playedCard)) {
+      player.hand.splice(player.hand.indexOf(playedCard),1)
+      this.applyCardEffects(target, playedCard)
 
       // deal replacement card
       const drawNew = this.deck.deal(1,1) // this.deck.draw(1)
       const newCard = drawNew["1"][0]
-      candid.hand.push(newCard)
+      player.hand.push(newCard)
 
       // updateCardOrder: allow adding a card
-      this.state.candidatesById = candids
       this.nextTurn()
       return true
     } else {

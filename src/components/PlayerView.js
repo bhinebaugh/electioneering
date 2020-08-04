@@ -1,9 +1,8 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import Candidate from './Candidate';
-import Hand from './Hand';
-import { Droppable } from "react-beautiful-dnd";
-import { DragDropContext } from 'react-beautiful-dnd';
+import { Droppable, DragDropContext } from 'react-beautiful-dnd';
+
+import { Candidate, Hand, OpponentList } from './index';
 
 import './player-view.css'
 
@@ -52,23 +51,23 @@ class PlayerView extends React.Component {
             return;
         }
 
-        if (source.droppableId === destination.droppableId) {
+        if (destination.droppableId === "reorder") {
             // Rearrange card order within current hand
             if (source.index === destination.index) return;
             this.updateCardOrder(source.index, destination.index)
         } else {
-            const card = draggableId;
-            const target = destination;
-            this.props.playCard(card, target, source)
+            const cardId = draggableId;
+            const targetId = destination.droppableId;
+            this.props.playCard(cardId, targetId, this.props.candidate.id)
         }
     }
 
     render() {
-        let { candidate, active } = this.props;
+        let { candidate, opponents, active } = this.props;
         return (
             <DragDropContext onDragEnd={this.handleDragEnd}>
                 <div className="side PlayerView">
-                    <Droppable droppableId={"c"+candidate.id} direction="horizontal">
+                    <Droppable droppableId={candidate.id} direction="horizontal">
                         {(provided, snapshot) => (
                             <Candidate
                                 name={candidate.name}
@@ -86,7 +85,7 @@ class PlayerView extends React.Component {
                             </Candidate>
                         )}
                     </Droppable>
-                    <Droppable droppableId={candidate.id} direction="horizontal">
+                    <Droppable droppableId={"reorder" }direction="horizontal">
                         {(provided, snapshot) => (
                             <Hand
                                 // cards={order.map(cardId => candidate.hand.find(card => card.id === cardId))}
@@ -101,7 +100,7 @@ class PlayerView extends React.Component {
                             </Hand>
                         )}
                     </Droppable>
-                    {/* <Opponent desc="short version of <Candidate> that's also a drop target"> */}
+                    <OpponentList opponents={opponents} />
                 </div>
             </DragDropContext>
         )
