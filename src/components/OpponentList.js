@@ -1,24 +1,26 @@
 import React from 'react';
-import { Droppable } from 'react-beautiful-dnd';
+
+import { CardTarget } from './index';
 
 const Opponent = ({id, name}) => (
-    <Droppable droppableId={id} direction="vertical">
-        {(provided, snapshot) => (
-            <li ref={provided.innerRef} {...provided.droppableProps}>
+            <li className="hand">
                 {name}
             </li>
-        )}
-    </Droppable>
 )
 
 const OpponentList = ({opponents}) => {
     return (
         opponents ?
         <div>
-            <header>Opponent(s)</header>
-            <ul>
-                {Object.values(opponents).map(o => <Opponent id={o.id} name={o.name} />)}
-            </ul>
+            <header>
+                <h3>Your Opponent{opponents.length > 1 ? 's' : ''}</h3>
+                <div><i>drag a card here to act against them</i></div>
+            </header>
+            {Object.values(opponents).map(o => 
+                <CardTarget id={o.id}>
+                    <Opponent id={o.id} name={o.name} />
+                </CardTarget>
+            )}
         </div>
         :
         <p>running uncontested</p>

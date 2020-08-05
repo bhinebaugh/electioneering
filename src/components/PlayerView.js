@@ -2,7 +2,7 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Droppable, DragDropContext } from 'react-beautiful-dnd';
 
-import { Candidate, Hand, OpponentList } from './index';
+import { Candidate, CardTarget, Hand, OpponentList } from './index';
 
 import './player-view.css'
 
@@ -67,24 +67,18 @@ class PlayerView extends React.Component {
         return (
             <DragDropContext onDragEnd={this.handleDragEnd}>
                 <div className="side PlayerView">
-                    <Droppable droppableId={candidate.id} direction="horizontal">
-                        {(provided, snapshot) => (
-                            <Candidate
-                                name={candidate.name}
-                                stats={candidate.stats}
-                                resources={candidate.resources}
-                                exceeded={this.state.exceeded}
-                                active={active}
-                                characteristics={candidate.characteristics}
-                                provided={provided}
-                                isDraggingOver={snapshot.isDraggingOver}
-                            >
-                                <div className="card-drop">
-                                    {provided.placeholder}
-                                </div>
-                            </Candidate>
-                        )}
-                    </Droppable>
+
+                    <CardTarget id={candidate.id}>
+                        <Candidate
+                            name={candidate.name}
+                            stats={candidate.stats}
+                            resources={candidate.resources}
+                            exceeded={this.state.exceeded}
+                            active={active}
+                            characteristics={candidate.characteristics}
+                        />
+                    </CardTarget>
+
                     <Droppable droppableId={"reorder" }direction="horizontal">
                         {(provided, snapshot) => (
                             <Hand
@@ -100,7 +94,9 @@ class PlayerView extends React.Component {
                             </Hand>
                         )}
                     </Droppable>
+
                     <OpponentList opponents={opponents} />
+
                 </div>
             </DragDropContext>
         )

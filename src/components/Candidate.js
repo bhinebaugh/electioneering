@@ -4,26 +4,25 @@ import AttributeList from './AttributeList';
 import ResourcesList from './ResourcesList';
 import './candidate.css';
 
+const StatsList = (props) => (<table>
+    <thead><tr><th colSpan="2">statistics</th></tr></thead>
+    <tbody>
+    {Object.keys(props.stats).map(stat => (
+        <tr key={stat}><td>{stat}</td><td>{props.stats[stat]}</td></tr>
+    ))}
+    </tbody>
+</table>)
+
 function Candidate(props) {
     var componentClasses = ["candidate"];
     const { funding, staff, volunteers } = props.resources;
     if (props.active) componentClasses.push("active");
-    if (props.isDraggingOver) componentClasses.push("targeted");
     return (
-        <div className={componentClasses.join(" ")}
-            ref={props.provided.innerRef}
-            {...props.provided.droppableProps}
-        >
+        <div className={componentClasses.join(" ")}>
             <h2>{props.name}</h2>
+            <div><i>drag a card here to boost stats</i></div>
             <ResourcesList resources={props.resources} exceeded={props.exceeded} />
-            <table>
-                <thead><tr><th colSpan="2">statistics</th></tr></thead>
-                <tbody>
-                {Object.keys(props.stats).map(stat => (
-                    <tr key={stat}><td>{stat}</td><td>{props.stats[stat]}</td></tr>
-                ))}
-                </tbody>
-            </table>
+            <StatsList stats={props.stats} />
             <AttributeList attributes={props.characteristics} />
             {props.children}
         </div>

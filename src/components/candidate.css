@@ -31,10 +31,3 @@
 .candidate td:first-child {
     text-align: left;
 }
-
-.candidate .card-drop {
-    background: transparent;
-    position: absolute;
-    left: 0;
-    top: 0;
-}
