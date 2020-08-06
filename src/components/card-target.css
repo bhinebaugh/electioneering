@@ -1,0 +1,15 @@
+.droppable-container {
+    position: relative;
+}
+
+/* style applied to div when dragging over */
+.droppable-container.targeted {}
+
+.card-drop {
+    /* prevents droppable container from expanding to 
+    ** slide content out of the way of draggable */
+    background: transparent;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
