@@ -5,7 +5,7 @@ import Card from './Card';
 import './hand.css';
 
 function Hand(props) {
-    var domClasses = ["hand"]
+    var domClasses = ["hand","well"]
     if (props.isDraggingOver) { domClasses.push("targeted") }
     if (props.waitingTurn) { domClasses.push("waiting") }
     return(

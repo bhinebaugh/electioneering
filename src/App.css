@@ -2,9 +2,9 @@
 
   /* options */
 
-  --neutral-lightest: ;
-  --neutral-lighter:  ;
-  --neutral-light:    ;
+  --neutral-lightest: #e6e7db;
+  --neutral-lighter:  #c9cbbc;
+  --neutral-light:    #c1beb0;
   --neutral-mid-4:    ;
   --neutral-mid-5:    #888;
   --neutral-mid-6:    ;
@@ -14,13 +14,16 @@
 
   --main-1: #e6eeff;
   --main-2: #d5e5ff;
+  /* c0cece */
   --main-3: #babfc8;
   --main-4: #8995ac;
-  --main-5: ;
+  --main-5: #5e697d;
+  --main-8: #44494f;
 
-  --complement-1: ;
+  --complement-1: #fffcd5;
   --complement-2: ;
-  --complement-3: ;
+  --complement-3: #959259;
+  --complement-4: #777551;
   /** DO NOT USE THE VARIABLES ABOVE DIRECTLY IN STYLES **/
   /** Map them to the descriptive variables below **/
 
@@ -28,20 +31,27 @@
   /* color, typography, icons */
 
   --text-color-default: var(--neutral-darkest);
-  --text-ondark-default: var(--main-1);
-  --background-color-default: #babfc8;
-  --background-color-darken:  #8995ac;
+  --text-color-ondark: var(--main-1);
+  --background-color-default: var(--neutral-lightest);
+  --background-color-darken:  var(--neutral-light);
 	--color-funding:    #69d9c394;
 	--color-staff:      #d9d47cb3;
   --color-volunteers: #bfa1dfb3;
   --color-warn:       #f44;
 
-  --article-background-default: var(--main-2);
+  --article-background-color: var(--complement-1);
+  --article-background-color-darker: var(--complement-3);
+  --article-background-color-darkest: var(--complement-4);
+  --article-text-color: var(--main-8)
 }
 
 body {
   background-color: var(--background-color-default);
   color: var(--text-color);
+}
+
+.well {
+	box-shadow: inset 0px 0px 4px 2px #0000000f;
 }
 
 /* style applied to card or hand when dragging over */

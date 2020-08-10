@@ -1,19 +1,20 @@
 .card {
-    background: var(--article-background-default);
+    background: var(--article-background-color);
     border: solid 1px #888;
     border-radius: 6px;
     box-shadow: 1px 2px 3px 2px #0000001a;
     /* box-shadow: inset 0px 0px 10px #beb493; */
+    color: var(--article-background-color);
     display: flex;
     flex-direction: column;
     margin: 0 16px 0 0;
     width: 140px;
 }
 .card h1 {
-    background: #94c8fd;
-    background: linear-gradient(to right, #4068c1, #4f75ca, #4068c1);
+    /* background: linear-gradient(to right, #4068c1, #4f75ca, #4068c1); */
+    background: var(--article-background-color-darker);
     border-bottom: solid 1px #888;
-    color: var(--text-ondark-default);
+    color: var(--text-color-ondark);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -24,7 +25,7 @@
     padding: 0.5rem 1rem;
 }
 .requirements {
-    background: #517ddd;
+    background: var(--article-background-color-darkest);
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -52,16 +53,16 @@
 }
 .description {
     font-style: italic;
-    background: #bcd0f0;
+    background: var(--article-background-color);
 	padding: 0.6em 0.6em .8em;
 	margin: 0;
-    color: #33476f;
+    color: var(--text-color-default);
 }
 .effects {
 	text-align: left;
 	padding: 0 0.6em;
 	list-style: none;
-	color: #4c5b97;
+	color: var(--text-color-default);
 }
 .effects li {
 	display: flex;

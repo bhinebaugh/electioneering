@@ -2,7 +2,7 @@
     align-items: stretch;
     display: flex;
     flex-direction: row;
-    background:#aeb6c6;
+    background: var(--background-color-darken);
     border: solid 1px #d0c9db;
     border-radius: 6px;
     margin: 10px 10px;

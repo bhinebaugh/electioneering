@@ -12,7 +12,7 @@ import './dashboard.css';
 function Dashboard(props) {
     const { candidatesById, turnOrder, turnNumber, round, winner } = props.gameState;
     return (
-        <div className="dashboard">
+        <div className="dashboard well">
             <h3>Developer Dashboard</h3>
             <div className="central-section">
                 <Log messages={props.logs} />
