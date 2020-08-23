@@ -15,6 +15,18 @@ const settings = {
 	INITIAL_FUNDS: 4,
 }
 
+// if (game.kickoff()) {
+//   this.setState({
+//     ready: true,
+//     status: this.IN_PROGRESS,
+//     activeId: game.state.turnOrder[game.state.turnNumber],
+//     logs: [...this.state.logs, "Game state initialized"],
+//     gameState: game.state
+//   })
+// } else {
+//   this.log("there was an error")
+// };
+
 // Candidate
 
 // id
@@ -76,28 +88,28 @@ const Game = function () {
 };
 
 Game.prototype = {
-  kickoff: function() {
-    try {
-      this.settings = settings;
-      // this.state.round = settings.ROUNDS_
-      this.deck = new Deckbuilder();
-      this.prepareCards(this.deck);
-      
-      // allow for a potentially variable number of players--
-      // but use turnOrder.length instead
-      // characteristics: [ [SERIOUS, 2], [SHADY, 1] ]
-      // characteristics: { SERIOUS: 2, SHADY: 1 }
-      this.state.candidatesById = this.generateCandidates();
-      this.state.turnOrder = Object.keys(this.state.candidatesById);
-      const hands = this.deck.deal(this.settings.NUMBER_OF_CANDIDATES,this.settings.INITIAL_CARDS);
-      for (let i=0; i < this.settings.NUMBER_OF_CANDIDATES; i++) {
-        this.state.candidatesById[i].hand = hands[(i+1).toString()];
-      }
-      return true;
-    } catch (err) {
-      console.error(err);
-      return false;
+  setup: function() {
+    this.settings = settings;
+    this.deck = new Deckbuilder();
+    this.prepareCards(this.deck);
+    this.state.candidatesById = this.generateCandidates();
+    this.state.turnOrder = Object.keys(this.state.candidatesById);
+    const hands = this.deck.deal(this.settings.NUMBER_OF_CANDIDATES,this.settings.INITIAL_CARDS);
+    for (let i=0; i < this.settings.NUMBER_OF_CANDIDATES; i++) {
+      this.state.candidatesById[i].hand = hands[(i+1).toString()];
     }
+
+    var initialState = this.state;
+
+    return new Promise( function(resolve, reject) {
+
+      if (!initialState) {
+        reject("Problem with game setup");
+      }
+      resolve(initialState);
+
+    })
+
   },
 
   generateCandidates: function() {
@@ -160,7 +172,10 @@ Game.prototype = {
     let player = this.state.candidatesById[Number.parseInt(playerId)]
     let playedCard = player.hand.find(c => c.id === cardId)
     let target = this.state.candidatesById[Number.parseInt(targetId)];
+    var validated = false;
     if (this.validatePlay(player, target, playedCard)) {
+      validated = true;
+
       player.hand.splice(player.hand.indexOf(playedCard),1)
       this.applyCardEffects(target, playedCard)
 
@@ -171,11 +186,14 @@ Game.prototype = {
 
       // updateCardOrder: allow adding a card
       this.nextTurn()
-      return true
-    } else {
-      // invalid move; return to hand
-      return false
+      var updatedState = this.state
     }
+    return new Promise((resolve,reject) => {
+      if (!validated) {
+        reject("attempted move did not validate")
+      }
+      resolve(updatedState)
+    })
   },
 
   applyCardEffects: function(candidate, card) {

@@ -59,6 +59,8 @@ class PlayerView extends React.Component {
             const cardId = draggableId;
             const targetId = destination.droppableId;
             this.props.playCard(cardId, targetId, this.props.candidate.id)
+            // submit move as call to game server
+            // handle: accept + update props, then new card(s) || reject move
         }
     }
 
