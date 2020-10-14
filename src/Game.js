@@ -13,10 +13,18 @@ const ErrorMessage = (props) => (
   </div>
 );
 
-// This component serves to request initial state 
-// and send along actions to a central game server
-// and collect response to update child presentational components
+// The <Game> root component communicates with the game server 
+// (or to a library file in interim) to:
+//   1) request initial state
+//   2) pass along actions from user 
+//   3) record server response as updated state
+//   4) propagate updates to child presentational components
+
 class Game extends React.Component {
+
+  // TODO: component state contained and reflects server
+  // handle rounds, winner, process, errors
+  // while Gameboard and esp PlayerView doesn't need all that
 
   NOT_READY = "NOT_READY";
   IN_PROGRESS = "IN_PROGRESS";
@@ -109,6 +117,8 @@ class Game extends React.Component {
         );
         break;
       case this.NOT_READY:
+        // fall through to default
+        // or <Waiting spinner>
       case this.COMM_ERROR:
       default:
         content = (
@@ -123,7 +133,6 @@ class Game extends React.Component {
             />
           </ErrorMessage>
         );
-        // or <Waiting spinner>
     }
 
     return (

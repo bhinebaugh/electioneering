@@ -1,33 +1,10 @@
 import Deckbuilder from 'deckbuilder';
 // import settings, { surnames, firstNames } from './settings';
-import { surnames, firstNames } from './settings';
+import { defaults } from './settings';
+import { surnames, firstNames } from './names';
 import { cardSet } from './card-definitions';
 
-
-const settings = {
-	ROUNDS_PER_GAME: 4,
-	NUMBER_OF_CANDIDATES: 2,
-	BASE_TURNOUT: 50000,
-	INITIAL_CARDS: 4,
-	INITIAL_POLLING: 20, // starting %
-	INITIAL_STAFF: 1,
-	INITIAL_VOLUNTEERS: 0,
-	INITIAL_FUNDS: 4,
-}
-
-// if (game.kickoff()) {
-//   this.setState({
-//     ready: true,
-//     status: this.IN_PROGRESS,
-//     activeId: game.state.turnOrder[game.state.turnNumber],
-//     logs: [...this.state.logs, "Game state initialized"],
-//     gameState: game.state
-//   })
-// } else {
-//   this.log("there was an error")
-// };
-
-// Candidate
+// class Candidate
 
 // id
 // name
@@ -79,17 +56,15 @@ const Game = function () {
       // - alignment / favorability
       // - winnable / capable / realistic
       // media subtypes: earned, paid, owned, relational/social
-    round: settings.ROUNDS_PER_GAME, // counts down to 0, representing weeks until election day
     // game status: not ready (setting up, waiting for players) -> in progress -> concluded || error
     winner: null // double-duty indicator of if game has concluded
   };
-  this.settings = {};
-  this.deck = null;
 };
 
 Game.prototype = {
   setup: function() {
-    this.settings = settings;
+    this.settings = defaults;
+    this.state.round = defaults.ROUNDS_PER_GAME // counts down to 0, representing weeks until election day
     this.deck = new Deckbuilder();
     this.prepareCards(this.deck);
     this.state.candidatesById = this.generateCandidates();
@@ -237,9 +212,17 @@ Game.prototype = {
       ? a 
       : b
     )
-    this.state.winner = 0
-    // this.state.winner = highestPolling.id
+    this.state.winner = highestPolling.id
+
     console.log("end of the game", this.state.winner)
+    return new Promise((resolve, reject) => {
+      try {
+        resolve(this.state)
+      }
+      catch {
+        reject("Election fraud! The game has ended, but there is problem calculating results")
+      }
+    })
   }
 }
 
