@@ -23,7 +23,7 @@ function Candidate(props) {
             <div><i>drag a card here to boost stats</i></div>
             <ResourcesList resources={props.resources} exceeded={props.exceeded} />
             <StatsList stats={props.stats} />
-            <AttributeList attributes={props.characteristics} />
+            {/* <AttributeList attributes={props.characteristics} /> */}
             {props.children}
         </div>
     )
