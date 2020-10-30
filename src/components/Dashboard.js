@@ -17,12 +17,12 @@ function Dashboard(props) {
             <div className="central-section">
                 <Log messages={props.logs} />
                 <div>
-                    Round: {round} weeks to go<br/>
+                    Round: {round} weeks to go of {props.campaignLength}<br/>
                     Turn order: {(turnOrder && turnOrder.join(', ')) || "n/a"}<br/>
                     Current turn: {turnNumber}<br/>
                     Winner: {winner || "TBD"}
                 </div>
-                <Polls candidates={props.candidates} />
+                <Polls polling={props.polling} campaignLength={props.campaignLength} />
             </div>
         </div>
     )

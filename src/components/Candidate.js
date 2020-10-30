@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AttributeList from './AttributeList';
+// import AttributeList from './AttributeList';
 import ResourcesList from './ResourcesList';
 import './candidate.css';
 

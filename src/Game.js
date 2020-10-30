@@ -35,6 +35,7 @@ class Game extends React.Component {
   state = {
     status: this.NOT_READY,
     logs: ["Loading..."],
+    pollingHistory: {},
     data: null
   }
 
@@ -45,9 +46,24 @@ class Game extends React.Component {
     game.setup()
     .then(
       data => {
+        const pH = {};
+        Object.values(data.candidatesById).forEach(c => {
+          // next polling number will be pushed onto end of array each time server returns state after playing a card, i.e. twice per round (w/ 2 candidates)
+          pH[c.name] = Array.of(c.stats.polling)
+        })
+
         this.setState({
           status: this.IN_PROGRESS,
           logs: [...this.state.logs, "Promise fulfilled: initial state received"],
+          pollingHistory: 
+          Object.values(data.candidatesById).reduce(
+            (total,cnd) => Object.assign(
+                total,
+                {[cnd.name]: Array.of(cnd.stats.polling)}
+              ),
+            {}
+          ),
+          campaignLength: data.round,
           data
         })
       },
@@ -71,9 +87,17 @@ class Game extends React.Component {
     game.playCard(cardId, targetId, sourceId)
     .then(
       data => {
+        // update polling history
+        // var candidateId = this.state.data.candidatesById[this.state.data.turnNumber];
+        var updatedPollingHistory = {};
+        Object.values(data.candidatesById).forEach(c => {
+          updatedPollingHistory[c.name] = [...this.state.pollingHistory[c.name], c.stats.polling];
+          // updatedPollingHistory[c.name][this.state.data.turnNumber] = c.stats.polling;
+        })
         this.setState({
           status: (data.round <= 0 ? this.ENDED : this.IN_PROGRESS),
-          data
+          data,
+          pollingHistory: updatedPollingHistory
         })
       },
       error => {
@@ -88,6 +112,9 @@ class Game extends React.Component {
   render = (props) => {
 
     var content = null;
+    var placeholder = {
+      "bar": [22]
+    };
 
     switch(this.state.status) {
       case this.IN_PROGRESS:
@@ -99,6 +126,8 @@ class Game extends React.Component {
               candidates={Object.values(this.state.data.candidatesById)}
               logs={this.state.logs}
               gameState={this.state.data}
+              polling={this.state.pollingHistory}
+              campaignLength={this.state.campaignLength}
             />
 
             <GameBoard
@@ -130,6 +159,8 @@ class Game extends React.Component {
               candidates={[]}
               logs={this.state.logs}
               gameState={{}}
+              polling={{}}
+              campaignLength={0}
             />
           </ErrorMessage>
         );
