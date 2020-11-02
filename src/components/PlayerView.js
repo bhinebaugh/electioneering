@@ -91,6 +91,7 @@ class PlayerView extends React.Component {
                                 isDraggingOver={snapshot.isDraggingOver}
                                 waitingTurn={!active}
                                 highlightRequirements={this.highlightRequirements}
+                                limits={candidate.resources}
                             >
                                 {provided.placeholder}
                             </Hand>

@@ -26,6 +26,7 @@ function Hand(props) {
                             name={card.name}
                             description={card.description}
                             requirements={card.requirements}
+                            limits={props.limits}
                             effects={card.effects}
                             attributes={card.attributes}
                             onHover={props.highlightRequirements}

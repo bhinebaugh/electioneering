@@ -1,18 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AttributeList from './AttributeList';
+// import AttributeList from './AttributeList';
 import './card.css'
 
-const Card = ({ name, description, requirements, effects, attributes, provided, onHover, ...rest }) => {
+const Card = ({ name, description, requirements, limits, effects, attributes, provided, onHover, ...rest }) => {
     var reqHtml = <div className="requirements"></div>;
     if (requirements) {
-        const { funding, staff, volunteers } = requirements;
-        reqHtml = <div className="requirements">
-                <div className="req-funds">{funding || '-'}</div>
-                <div className="req-staff">{staff || '-'}</div>
-                <div className="req-volunteers">{volunteers || '-'}</div>
-            </div>
+        const requirementDivs = 
+        ["funding","staff","volunteers"].map(r => {
+
+            const classNames= ["req-"+r]
+            // compare to candidate's resources
+            if (limits[r] && limits[r] < requirements[r]) {
+                classNames.push("warn")
+            }
+
+            return <div className={classNames.join(" ")}>{requirements[r] || '-'}</div>
+        })
+        reqHtml = <div className="requirements">{requirementDivs}</div>
     }
+
     return (
         <div className="card"
             {...provided.draggableProps}

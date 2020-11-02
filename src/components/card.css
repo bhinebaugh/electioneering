@@ -41,7 +41,11 @@
     text-align: center;
     width: 2em;
 }
-.req-funds { background: var(--color-funding); }
+.card:hover .requirements .warn {
+    animation: throb 0.8s ease-in-out 0s infinite alternate none;
+}
+.req-funds,
+.req-funding { background: var(--color-funding); }
 .req-staff { background: var(--color-staff); }
 .req-volunteers { background: var(--color-volunteers); }
 .content {

@@ -58,3 +58,10 @@ body {
 .targeted {
   background-color: var(--background-color-darken);
 }
+
+@keyframes throb {
+	to {
+		background: #f448;
+		border-color: var(--color-warn);
+	}
+}
