@@ -78,12 +78,21 @@ const cardDefinitions = [
      * hometown hero
      */
     {
-        frequency: 9,
+        frequency: 11,
         card: new Card(
             "hire staff", "increase your campaign's capacity by adding more people",
             BUFF,
             { funding: 1 },
             { staff: 1, funding: -1 }, [LEGIT]
+        )
+    },
+    {
+        frequency: 3,
+        card: new Card(
+            "hire political consulting firm", "get a major boost in capacity",
+            BUFF,
+            { funding: 3 },
+            { staff: 3, funding: -3 }
         )
     },
     {
@@ -218,7 +227,7 @@ const cardDefinitions = [
         )
     },
     {
-        frequency: 1,
+        frequency: 3,
         card: new Card(
             "mixed press", "coverage questions the depth of your support", 
             ATTACK,
@@ -227,7 +236,7 @@ const cardDefinitions = [
         )
     },
     {
-        frequency: 1,
+        frequency: 2,
         card: new Card(
             "hit piece", "a scathing newspaper article", 
             ATTACK,
@@ -320,7 +329,7 @@ const cardDefinitions = [
         )
     },
     {
-        frequency: 1,
+        frequency: 3,
         card: new Card(
             "gaffe", "your foot ends up in your mouth", 
             ATTACK,
@@ -338,7 +347,7 @@ const cardDefinitions = [
         )
     },
     {
-        frequency: 1,
+        frequency: 2,
         card: new Card(
             "win a debate", "commanding debate performance garners praise", 
             BUFF,
@@ -347,12 +356,30 @@ const cardDefinitions = [
         )
     },
     {
-        frequency: 1,
+        frequency: 2,
         card: new Card(
             "hot mic", "an unguarded moment proves embarrassing", 
             ATTACK,
             { },
             { enthusiasm: -1, polling: -2 }, [SERIOUS,LEGIT]
+        )
+    },
+    {
+        frequency: 1,
+        card: new Card(
+            "defamatory robocalls", "residents receive anonymous recorded messages suggesting shady dealings",
+            ATTACK,
+            { funding: 2 },
+            { enthusiasm: -3, polling: -2 }, [SHADY]
+        )
+    },
+    {
+        frequency: 2,
+        card: new Card(
+            "coordinated criticism", "fellow politicians and pundits follow prepared talking points about your opponent",
+            ATTACK,
+            { endorsements: 2 },
+            { polling: -3 }, [ESTABLISHMENT]
         )
     },
     {
