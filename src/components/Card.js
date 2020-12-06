@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 // import AttributeList from './AttributeList';
 import './card.css'
 
-const Card = ({ name, description, requirements, limits, effects, attributes, provided, onHover, ...rest }) => {
+const Card = ({ name, description, type, requirements, limits, effects, attributes, provided, onHover, ...rest }) => {
     var reqHtml = <div className="requirements"></div>;
     if (requirements) {
         const requirementDivs = 
@@ -21,7 +21,7 @@ const Card = ({ name, description, requirements, limits, effects, attributes, pr
     }
 
     return (
-        <div className="card"
+        <div className={"card " + type}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             ref={provided.innerRef}

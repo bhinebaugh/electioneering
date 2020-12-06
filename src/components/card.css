@@ -10,6 +10,15 @@
     margin: 0 16px 0 0;
     width: 140px;
 }
+.card.attack {
+    background: var(--attack-background-color);
+}
+.card.buff {
+    background: var(--buff-background-color);
+}
+.card.other {
+    background: var(--article-background-color);
+}
 .card h1 {
     /* background: linear-gradient(to right, #4068c1, #4f75ca, #4068c1); */
     background: var(--article-background-color-darker);

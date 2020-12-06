@@ -25,6 +25,7 @@ function Hand(props) {
                             provided={provided}
                             name={card.name}
                             description={card.description}
+                            type={card.type}
                             requirements={card.requirements}
                             limits={props.limits}
                             effects={card.effects}

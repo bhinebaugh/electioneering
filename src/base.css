@@ -20,10 +20,10 @@
   --main-5: #5e697d;
   --main-8: #44494f;
 
-  --complement-1: #fffcd5;
+  --complement-1: #fffcd594;
   --complement-2: ;
-  --complement-3: #959259;
-  --complement-4: #777551;
+  --complement-3: #504a54a1;
+  --complement-4: #857d8b;
   /** DO NOT USE THE VARIABLES ABOVE DIRECTLY IN STYLES **/
   /** Map them to the descriptive variables below **/
 
@@ -39,6 +39,8 @@
   --color-volunteers: #bfa1dfb3;
   --color-warn:       #f44;
 
+  --attack-background-color: var(--color-warn);
+  --buff-background-color:   var(--main-5);
   --article-background-color: var(--complement-1);
   --article-background-color-darker: var(--complement-3);
   --article-background-color-darkest: var(--complement-4);
