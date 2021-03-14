@@ -33,6 +33,9 @@
     margin: 0;
     padding: 0.5rem 1rem;
 }
+.card section {
+    padding: 0.2rem 1rem;
+}
 .requirements {
     background: var(--article-background-color-darkest);
     display: flex;
@@ -64,6 +67,16 @@
     font-size: 13px;
     padding: 0;
 }
+.content-toggle {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 2em;
+}
+.icon {
+    height: 100%;
+}
 .description {
     font-style: italic;
     background: var(--article-background-color);
@@ -73,7 +86,7 @@
 }
 .effects {
 	text-align: left;
-	padding: 0 0.6em;
+    padding: 0;
 	list-style: none;
 	color: var(--text-color-default);
 }

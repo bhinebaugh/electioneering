@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 // import AttributeList from './AttributeList';
 import './card.css'
+
+const Description = ({text}) => {
+    function displayDescription() {
+        console.log('owwie')
+    }
+    return <img className="icon" src="/description.svg" alt={text} onClick={displayDescription} />
+}
 
 const Card = ({ name, description, type, requirements, limits, effects, attributes, provided, onHover, ...rest }) => {
     var reqHtml = <div className="requirements"></div>;
@@ -33,12 +40,16 @@ const Card = ({ name, description, type, requirements, limits, effects, attribut
                 {reqHtml}
             </header>
             <div className="content">
-
-            <p className="description">{description}</p>
-            <ul className="effects">
-                {Object.keys(effects).map(effect => <li key={name+effect}><span className="term">{effect}:</span><span className="value">{effects[effect] > 0 ? '+' : '' }{effects[effect]}</span></li>)}
-            </ul>
-            {/* <AttributeList attributes={attributes.reduce((o, a) => { o[a] = 1; return o }, {})} /> */}
+                <section className="content-toggle">
+                    <div>effects</div>
+                    <Description text={description} />
+                </section>
+                <section>
+                    <ul className="effects">
+                        {Object.keys(effects).map(effect => <li key={name+effect}><span className="term">{effect}:</span><span className="value">{effects[effect] > 0 ? '+' : '' }{effects[effect]}</span></li>)}
+                    </ul>
+                    {/* <AttributeList attributes={attributes.reduce((o, a) => { o[a] = 1; return o }, {})} /> */}
+                </section>
             </div>
         </div>
     )
