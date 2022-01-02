@@ -1,7 +1,10 @@
 {
   "name": "campaign-deck",
   "version": "0.1.0",
+  "description": "A card game simulating an election campaign",
   "private": true,
+  "license": "GPL-3.0-or-later",
+  "repository": "github:bhinebaugh/electioneering",
   "dependencies": {
     "deckbuilder": "^1.1.2",
     "react": "^16.13.1",
