@@ -76,6 +76,7 @@
 }
 .icon {
     height: 100%;
+    cursor: pointer;
 }
 .description {
     font-style: italic;

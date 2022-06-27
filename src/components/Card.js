@@ -4,13 +4,21 @@ import PropTypes from 'prop-types';
 import './card.css'
 
 const Description = ({text}) => {
-    function displayDescription() {
-        console.log('owwie')
-    }
-    return <img className="icon" src="/description.svg" alt={text} onClick={displayDescription} />
+    return <p>{text}</p>
+}
+
+const Effects = ({name, effects}) => {
+    return (
+        <ul className="effects">
+            {Object.keys(effects).map(effect => <li key={name+effect}><span className="term">{effect}:</span><span className="value">{effects[effect] > 0 ? '+' : '' }{effects[effect]}</span></li>)}
+        </ul>
+    )
+    /* <AttributeList attributes={attributes.reduce((o, a) => { o[a] = 1; return o }, {})} /> */
+
 }
 
 const Card = ({ name, description, type, requirements, limits, effects, attributes, provided, onHover, ...rest }) => {
+    const [descriptionVisibility, setDescriptionVisibility] = useState(false);
     var reqHtml = <div className="requirements"></div>;
     if (requirements) {
         const requirementDivs = 
@@ -42,13 +50,14 @@ const Card = ({ name, description, type, requirements, limits, effects, attribut
             <div className="content">
                 <section className="content-toggle">
                     <div>effects</div>
-                    <Description text={description} />
+                    <img className="icon" src="/description.svg" alt={description} onClick={() => setDescriptionVisibility(!descriptionVisibility)} />
                 </section>
                 <section>
-                    <ul className="effects">
-                        {Object.keys(effects).map(effect => <li key={name+effect}><span className="term">{effect}:</span><span className="value">{effects[effect] > 0 ? '+' : '' }{effects[effect]}</span></li>)}
-                    </ul>
-                    {/* <AttributeList attributes={attributes.reduce((o, a) => { o[a] = 1; return o }, {})} /> */}
+                {
+                    descriptionVisibility 
+                    ? <Description text={description} /> 
+                    : <Effects name={name} effects={effects} /> 
+                }
                 </section>
             </div>
         </div>
